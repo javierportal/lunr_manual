@@ -1,0 +1,116 @@
+<html>
+  <head>
+    <title></title>
+    <meta content="">
+    <style></style>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+  </head>
+  <body>
+  <script>
+  var documents= [{"id":0,"nombre":"Biblioteca Pública Hortaleza","descripcion":"moratalaz","domicilio":"Calle Abertura, s/n","codigo_postal":28033,"provincia":"Madrid","localidad":"Madrid","telefono":917633284},{"id":1,"nombre":"Biblioteca Pública Moratalaz","descripcion":"Egea ruiz","domicilio":"Calle Corregidor Alonso de Tobar, 5","codigo_postal":28030,"provincia":"Madrid","localidad":"Madrid","telefono":914394688},{"id":2,"nombre":"Biblioteca Pública Ruiz Egea (Chamberí)","descripcion":"maría","domicilio":"Calle de Raimundo Fernández Villaverde, 6","codigo_postal":28003,"provincia":"Madrid","localidad":"Madrid","telefono":915349029},{"id":3,"nombre":"Biblioteca Pública María Moliner (Villaverde)","descripcion":"mostoles","domicilio":"Calle de Villalonso, 14","codigo_postal":28021,"provincia":"Madrid","localidad":"Madrid","telefono":917230194},{"id":4,"nombre":"Residencia y centro de día Parque Coimbra","descripcion":"Siguiendo los protocolos sanitarios, los materiales en soporte físico pasarán por una cuarentena de 3 días tras su devolución, antes de estar disponible de nuevo en préstamo, garantizando así la seguridad de trabajadores y usuarios. Asimismo, y con el fin de asegurar una devolución escalonada de los documentos, se ha procedido a modificar la fecha de devolución de los ejemplares activos hasta el lunes 7 de septiembre de 2020.","domicilio":"Avda. de los Sauces, 55","codigo_postal":28935,"provincia":"Madrid","localidad":"Móstoles","telefono":916461893},{"id":5,"nombre":"Biblioteca Pública Móstoles","descripcion":"muchas casitas, comunicación","domicilio":"Calle de Villalonso, 14","codigo_postal":28935,"provincia":"Madrid","localidad":"Móstoles","telefono":917230194},{"id":6,"nombre":"Biblioteca de test","descripcion":"Especialista en telecomunicaciones, casas, edificios, trenes, ","domicilio":"Avenida principal, 1","codigo_postal":28135,"provincia":"Madrid","localidad":"Becerril de la Sierra","telefono":917230194},{"id":7,"nombre":"Residencia de test 2","descripcion":"CIF: A123456789","domicilio":"Plaza mayor, 1","codigo_postal":28125,"provincia":"Madrid","localidad":"San Martín de Valdeiglesias","telefono":917633284},{"id":8,"nombre":"Residencia de test 3","descripcion":"CIF: A123456789","domicilio":"Plaza mayor, 1","codigo_postal":28126,"provincia":"Madrid","localidad":"San Martín de la Vega","telefono":917660284}]
+
+  </script>
+<script src="https://www.comunidad.madrid/lunr/2.3.8/lunr.js"></script>
+<script>
+var idxTDT = lunr(function () {
+    // Definimos los campos del índice (parece que store no está aún soportado por lo que los campos para pintar resultados hay que sacarlos del array de documents
+    this.ref('id')
+    this.field('nombre', {boost: 1})
+    this.field('descripcion', {boost: 1})
+    this.field('domicilio')
+    this.field('codigo_postal')
+    this.field('provincia')
+    this.field('localidad')
+    this.field('telefono')
+    
+    documents.forEach(function (doc) {
+        this.add(doc)
+    }, this)
+})
+console.error(idxTDT.toJSON());
+
+function searchInLunr(consulta,municipio) {
+    var cadenaBusqueda= '';
+    if (consulta && consulta.length > 0) {
+        cadenaBusqueda += ''+consulta+'';
+        if (municipio && municipio.length > 0) {
+            cadenaBusqueda += ' +localidad:'+municipio;
+        }
+    } else if (municipio && municipio.length > 0) {
+        cadenaBusqueda += '+localidad:'+municipio;
+    }
+    var result = idxTDT.search(cadenaBusqueda);
+    return result;
+}
+    
+function displayResults(result, resultdiv) {
+    // Limpiamos la capa de resultados
+    resultdiv.empty();
+    if (result.length>0) {
+        // Añadimos el mensaje que informa del número de resultados obtenidos (aria-live=assertive leerá este mensaje de manera no obstrusiva en navegadores tipo jaws)
+        resultdiv.append('<h3 className="search-results-count" aria-live="assertive">Se han encontrado '+result.length+' resultados<\/h3>');
+        // Añadimos un elemento de lista no ordenada que recuperamos a continuación
+        resultdiv.append('<ul className="search-results-list" id="list-results"><\/ul>');
+        var listResults= jQuery('#list-results');
+        // Recorremos la lista de resultados
+        for (var item in result) {
+            try {
+                // En el atributo ref del item está almacenada la clave del elemento encontrado. Como en nuestro caso está clave es la posición del elemento en el array json de documentos
+                // podemos acceder a los valores que queremos mostrar con documents[ref].telefono
+                var ref = result[item].ref;
+                var searchitem='<li><p><strong>'+documents[ref].nombre+'</strong><\/p><p>'+documents[ref].descripcion+'<\/p>  <div class="address" property="schema:address" typeof="schema:PostalAddress">  <div class="field-name-field-long-address"><span property="schema:streetAddress">'+documents[ref].domicilio+'<\/span><\/div>  <div class="field-name-field-locality-address">Municipio: <span property="schema:addressLocality">'+documents[ref].localidad.toString()+'<\/span><\/div>  <div class="field-name-field-locality-region">Provincia: <span property="schema:addressRegion">'+documents[ref].provincia+'<\/span><\/div>  <div class="field-name-field-locality-postalcode">Código postal: <span property="schema:postalCode">'+documents[ref].codigo_postal+'<\/span><\/div>  <div class="field-name-field-locality-phone">Teléfono: <span property="schema:telephone" content="'+documents[ref].telefono+'">'+documents[ref].telefono+'<\/span><\/div> <\/div> <\/div><\/li>';
+                listResults.append(searchitem);
+            } catch (error) {
+                console.error(error+ ' item: '+item+' ref:'+ref);
+            }
+        }
+    } else {
+        resultdiv.append('<h3 className="search-results-count" aria-live="assertive">No se han encontrado resultados para esta búsqueda<\/h3>');
+    }
+}
+    
+function validateFormOnSubmit(theForm) {
+    // Recogemos los criterios de búsqueda
+    var query = jQuery('input#search-lunr').val();
+    var municipio = jQuery('#municipio').val();
+    // Ejecutamos la búsqueda
+    var resultados= searchInLunr(query,municipio);
+    // Llamamos a pintar resultados pasándole la lista de resultados de búsqueda y la capa donde debe pintar
+    var resultdiv = jQuery('#results');
+    displayResults(resultados, resultdiv);
+    return false;
+}
+</script>
+    <form accept-charset="UTF-8" action="#" class="webform-client-form webform-client-form-99999" id="webform-client-form-99999" method="get" onsubmit="return validateFormOnSubmit(this);" role="search">
+    <div>
+        <fieldset class="webform-component-fieldset webform-component--datos-mensaje panel panel-default form-wrapper">
+        <legend class="panel-heading"> <span class="panel-title fieldset-legend">Consulta de centros de la Comunidad de Madrid:</span> </legend>
+        <div class="panel-body">
+            <div class="form-item webform-component webform-component-textfield webform-component--datos-mensaje--search-lunr webform-container-inline form-group form-inline form-item form-item-submitted-datos-mensaje-search-lunr form-type-textfield form-group" id="input-div">
+            <h1><label class="control-label element-invisible" for="search-lunr" htmlfor="search-lunr">Búsqueda de centros</label></h1>
+            <input alt="Buscador de centros" class="form-control form-text" id="search-lunr" maxlength="60" name="search-lunr" onchange="" placeholder="Búsqueda de centros" size="30" type="text">
+            </div>
+            <div class="form-item form-item-submitted-municipio form-type-select form-group">
+            <select class="municipio form-control form-select" id="municipio" name="municipio">
+                <option value="">Filtro por municipio</option>
+                <option value="Madrid">Madrid</option>
+                <option value="Móstoles">Móstoles</option>
+                <option value="Miraflores de la Sierra">Miraflores de la Sierra</option>
+                <option value="San Martín de la Vega">San Martín de la Vega</option>
+                <option value="San Martín de Valdeiglesias">San Martín de Valdeiglesias</option>
+            </select>
+            <label class="control-label element-invisible" for="municipio">Filtrar por municipio:</label>
+            </div>
+            <div class="form-actions" id="btn-div"><button class="webform-submit button-primary btn btn-primary form-submit" id="btnSearch" name="op" type="submit" value="Buscar">Buscar</button></div>
+        </div>
+        </fieldset>
+    </div>
+    </form>
+    <section aria-label="Resultados de búsqueda">
+    <div id="results">
+        <h2 aria-live="assertive" classname="search-results-count">Se han encontrado N resultados</h2>
+        <ul classname="search-results-list" id="list-results"></ul>
+    </div>
+    </section>
+  </body>
+</html>

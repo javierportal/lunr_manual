@@ -1,0 +1,9 @@
+id,nombre,descripcion,domicilio,codigo_postal,provincia,localidad,telefono
+0,Biblioteca Pública Hortaleza,moratalaz,"Calle Abertura, s/n",28033,Madrid,Madrid,917633284
+1,Biblioteca Pública Moratalaz,Egea ruiz,"Calle Corregidor Alonso de Tobar, 5",28030,Madrid,Madrid,914394688
+2,Biblioteca Pública Ruiz Egea (Chamberí),maría,"Calle de Raimundo Fernández Villaverde, 6",28003,Madrid,Madrid,915349029
+3,Biblioteca Pública María Moliner (Villaverde),mostoles,"Calle de Villalonso, 14",28021,Madrid,Madrid,917230194
+4,Residencia y centro de día Parque Coimbra,"Siguiendo los protocolos sanitarios, los materiales en soporte físico pasarán por una cuarentena de 3 días tras su devolución, antes de estar disponible de nuevo en préstamo, garantizando así la seguridad de trabajadores y usuarios. Asimismo, y con el fin de asegurar una devolución escalonada de los documentos, se ha procedido a modificar la fecha de devolución de los ejemplares activos hasta el lunes 7 de septiembre de 2020.","Avda. de los Sauces, 55",28935,Madrid,Móstoles,916461893
+5,Biblioteca Pública Móstoles,"muchas casitas, comunicación","Calle de Villalonso, 14",28935,Madrid,Móstoles,917230194
+6,Biblioteca de test,"Especialista en telecomunicaciones, casas, edificios, trenes, ","Avenida principal, 1",28135,Madrid,Becerril de la Sierra,917230194
+7,Residencia de test 2,CIF: A123456789,"Plaza mayor, 1",28125,Madrid,Miraflores de la Sierra,917633284
