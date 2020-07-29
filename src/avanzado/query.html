@@ -1,0 +1,376 @@
+<html>
+  <head>
+    <title></title>
+    <meta content="">
+    <style></style>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+  </head>
+  <body>
+  <script>
+var documents= [
+{"id":0,"nombre":"Biblioteca Pública Hortaleza de Comunicación","descripcion":"moratalaz","domicilio":"Calle Abertura, s/n","codigo_postal":28033,"provincia":"Madrid","localidad":["Madrid"],"telefono":917633284,"fecha":"05/10/2020"},
+{"id":1,"nombre":"Biblioteca Pública Moratalaz de Comunicacion","descripcion":"Egea ruiz","domicilio":"Calle Corregidor Alonso de Tobar, 5","codigo_postal":28030,"provincia":"Madrid","localidad":["Madrid"],"telefono":914394688,"fecha":"05/12/2020"},
+{"id":2,"nombre":"Biblioteca Pública Ruiz Egea (Chamberí) de comunicaciones","descripcion":"maría","domicilio":"Calle de Raimundo Fernández Villaverde, 6","codigo_postal":28003,"provincia":"Madrid","localidad":["Madrid"],"telefono":915349029,"fecha":"15/01/2019"},
+{"id":3,"nombre":"Biblioteca Pública María Moliner (Villaverde)","descripcion":"mostoles","domicilio":"Calle de Villalonso, 14","codigo_postal":28021,"provincia":"Madrid","localidad":["Madrid"],"telefono":917230194,"fecha":"05/10/2019"},
+{"id":4,"nombre":"Residencia y centro de día Parque Coimbra","descripcion":"Siguiendo los protocolos sanitarios, los materiales en soporte físico pasarán por una cuarentena de 3 días tras su devolución, antes de estar disponible de nuevo en préstamo, garantizando así la seguridad de trabajadores y usuarios. Asimismo, y con el fin de asegurar una devolución escalonada de los documentos, se ha procedido a modificar la fecha de devolución de los ejemplares activos hasta el lunes 7 de septiembre de 2020.","domicilio":"Avda. de los Sauces, 55","codigo_postal":28935,"provincia":"Madrid","localidad":["Móstoles"],"telefono":916461893,"fecha":"05/11/2018"},
+{"id":5,"nombre":"Biblioteca Pública Móstoles","descripcion":"muchas casitas, comunicación","domicilio":"Calle de Villalonso, 14","codigo_postal":28935,"provincia":"Madrid","localidad":["Móstoles"],"telefono":917230194,"fecha":"07/10/2018"},
+{"id":6,"nombre":"Biblioteca de test","descripcion":"Especialista en telecomunicaciones, casas, edificios, trenes, ","domicilio":"Avenida principal, 1","codigo_postal":28135,"provincia":"Madrid","localidad":["Becerril de la Sierra"],"telefono":917230194,"fecha":"05/05/2018"},
+{"id":7,"nombre":"Residencia de test 2","descripcion":"CIF: A123456789","domicilio":"Plaza mayor, 1","codigo_postal":28125,"provincia":"Madrid","localidad":["San Martín de Valdeiglesias"],"telefono":917633284,"fecha":"05/10/2017"},
+{"id":8,"nombre":"Residencia de test 3","descripcion":"devolver libros","domicilio":"Plaza mayor, 1","codigo_postal":28126,"provincia":"Madrid","localidad":["San Martín de la Vega"],"telefono":917660284,"fecha":"05/10/2016"}
+]
+  </script>
+<style type="text/css">
+.webform-component--datos-mensaje #btn-div {
+    position: relative;
+    float: right;
+    width: 40%;
+}
+.webform-component--datos-mensaje--search-lunr {
+    position: relative;
+    float: left;
+}
+.form-item-submitted-municipio {
+    position: relative;
+    float: left;
+}
+#paragraph-item-id-234821 {
+    display:none;
+}
+.item-tdt {
+    margin-bottom: 1em;
+}
+#btn-div button {
+    float: right;
+}
+.item-tdt p {
+    margin: 0;
+}
+.resultpager {
+    display: inline-block;
+    vertical-align: middle;
+    border-radius: 4px;
+    padding: 1px 2px 4px 2px;
+}
+.resultpager li {
+    display: inline-block;
+    vertical-align: middle;
+    width: 22px;
+    color: #7D7D7D;
+    text-align: center;
+    font-size: 10px;
+    padding: 3px 0 2px 0;
+    -webkit-user-select:none;
+       -moz-user-select:none;
+        -ms-user-select:none;
+         -o-user-select:none;
+            user-select:none;
+}
+.resultpager li {
+    margin: 0 2px 0 2px;
+    border-radius: 4px;
+    border: 1px solid #E3E3E3;
+    cursor: pointer;
+    box-shadow: inset 0 1px 0 0 #FFF, 0 1px 2px #666;
+    text-shadow: 0 1px 1px #FFF;
+    background-color: #E6E6E6;
+    background-image: -webkit-linear-gradient(top, #F3F3F3, #D7D7D7);
+    background-image:    -moz-linear-gradient(top, #F3F3F3, #D7D7D7);
+    background-image:     -ms-linear-gradient(top, #F3F3F3, #D7D7D7);
+    background-image:      -o-linear-gradient(top, #F3F3F3, #D7D7D7);
+    background-image:         linear-gradient(top, #F3F3F3, #D7D7D7);
+}
+.resultpager li {
+    margin: 0 3px 0 3px;
+}
+.resultpager li.selected {
+    border: 1px solid #E9E9E9;
+    box-shadow: 0 1px 1px #999;
+    background-color: #DFDFDF;
+    background-image: -webkit-linear-gradient(top, #D0D0D0, #EBEBEB);
+    background-image:    -moz-linear-gradient(top, #D0D0D0, #EBEBEB);
+    background-image:     -ms-linear-gradient(top, #D0D0D0, #EBEBEB);
+    background-image:      -o-linear-gradient(top, #D0D0D0, #EBEBEB);
+    background-image:         linear-gradient(top, #D0D0D0, #EBEBEB);
+}
+</style>
+  
+<script src="https://www.comunidad.madrid/lunr/2.3.8/lunr.js"></script>
+<script src="https://www.comunidad.madrid/lunr/lunr.stemmer.support.js"></script>
+<script src="https://www.comunidad.madrid/uploads/lunr/lunr.es.js"></script>
+<script>
+
+function scapeSpaces(cadena) {
+    // El solr según el tipo de campo se aplica uno u otro procesador.
+    // En lunr no veo implementada esa funcionalidad. Por tanto, para el equivalente al string de solr
+    // implementamos una función que escapa los espacios para que no tokenice separando por palabras y 
+    // se pueda buscar sobre un campo por búsqueda exacta. OJO: No hace busqueda exacta porque hace stemming sobre
+    // la última palabra, es decir, Alcalá de Henares --> Alcala\\ de\\ Henares --> Alcala\\ de\\ Henare
+    try {
+    if (cadena && cadena.length > 0) {
+        if (Array.isArray(cadena)) {
+            for (var item in cadena) {
+                cadena[item]= scapeSpaces(cadena[item]);
+            }
+            return cadena;
+        } else {
+            return cadena.replace(/\s/g, "\\ ");
+        }
+    } else {
+        return "";
+    }
+    } catch (error) {
+    console.error(error);
+    }
+}
+
+var idxTDT = lunr(function () {
+    // No asignamos el lenguage para que la librería no inicialice ningún pipeline
+//    this.use(lunr.es);
+    // Definimos una expresión regular que mantenga los caracteres numéricos
+    var mywordCharacters = "A-Za-z0-9\xAA\xBA\xC0-\xD6\xD8-\xF6\xF8-\u02B8\u02E0-\u02E4\u1D00-\u1D25\u1D2C-\u1D5C\u1D62-\u1D65\u1D6B-\u1D77\u1D79-\u1DBE\u1E00-\u1EFF\u2071\u207F\u2090-\u209C\u212A\u212B\u2132\u214E\u2160-\u2188\u2C60-\u2C7F\uA722-\uA787\uA78B-\uA7AD\uA7B0-\uA7B7\uA7F7-\uA7FF\uAB30-\uAB5A\uAB5C-\uAB64\uFB00-\uFB06\uFF21-\uFF3A\uFF41-\uFF5A";
+    // Generamos una función trimmer identica a la proporcionada por la librería pero que usa nuestra expresión regular
+    var trimmerWithNumbers = lunr.trimmerSupport.generateTrimmer(mywordCharacters);
+    // Registramos la nueva función
+    lunr.Pipeline.registerFunction(trimmerWithNumbers, 'trimmerwithnumbers-es');
+    // Eliminamos todas las funciones que pudiera haber en el pipeline
+    this.pipeline.reset();
+    // Creamos nuestro propio pipeline de funciones en el que hemos sustituido el trimmer original y hemos dejado el resto igual
+    this.pipeline.add(
+        trimmerWithNumbers,
+        lunr.es.stopWordFilter,
+        lunr.es.stemmer
+    );
+    // También tenemos que crear el pipeline de búsqueda que al no haber llamado a la función use(lunr.es) no se ha inicializado
+    this.searchPipeline.reset();
+    this.searchPipeline.add(lunr.es.stemmer)
+
+    // Definimos los campos del índice (parece que store no está aún soportado por lo que los campos para pintar resultados hay que sacarlos del array de documents
+    this.ref('id')
+    this.field('nombre', {boost: 12})
+    this.field('descripcion', {boost: 8})
+    this.field('domicilio')
+    this.field('codigo_postal')
+    this.field('provincia')
+    this.field('localidad', {usePipeline: false, boost: 5})
+    this.field('telefono')
+    this.field('fecha')
+    this.field('year',{
+        extractor: function (doc) {
+            return doc.fecha.substring(doc.fecha.lastIndexOf('/')+1);
+        }
+    })
+
+    // b: This parameter controls the importance given to the length of a document and its fields. This value must be between 0 and 1, and by default it has a value of 0.75. Reducing this value reduces the effect of different length documents on a term’s importance to that document. 
+    // k1: This controls how quickly the boost given by a common word reaches saturation. Increasing it will slow down the rate of saturation and lower values result in quicker saturation. The default value is 1.2. If the collection of documents being indexed have high occurrences of words that are not covered by a stop word filter, these words can quickly dominate any similarity calculation. In these cases, this value can be reduced to get more balanced results. 
+    this.k1(1.2);
+    this.b(0);
+
+    documents.forEach(function (doc) {
+        this.add(doc,{ boost: doc.id })
+    }, this)
+})
+
+
+function searchInLunr(consulta, municipio, year, difuso=0, page=0) {
+    var resultados= new Object();
+    resultados.resultsPerPage= 2;
+    var result = idxTDT.query(function (q) {
+        if (consulta && consulta.length > 0) {
+            consulta.split(' ').forEach(function (value) {
+                q.term(value, { boost: 32 }) // exact match
+                q.term(value, { usePipeline: false, wildcard: lunr.Query.wildcard.TRAILING, boost: 8 }) // prefix match, no stemmer
+                q.term(value, { usePipeline: false, wildcard: lunr.Query.wildcard.LEADING, boost: 4 }) // suffix match, no stemmer
+                q.term(value, { usePipeline: false, wildcard: lunr.Query.wildcard.LEADING | lunr.Query.wildcard.TRAILING, boost: 2 }) // suffix and prefix match, no stemmer
+                if (difuso) {
+                    q.term(value, { usePipeline: true, wildcard: lunr.Query.wildcard.LEADING, boost: 4 }) // suffix match, no stemmer
+                    q.term(value, { usePipeline: false, editDistance: value.length>6?2:1, boost: 1 }) // fuzzy matching
+                }
+            });
+        }
+        if (municipio && municipio.length > 0) {
+            q.term(municipio.toLowerCase(), { fields: ["localidad"], usePipeline: true, presence: lunr.Query.presence.REQUIRED })
+        }   
+        if (year && year.length > 0) {
+            q.term(year, { fields: ["year"], usePipeline: false, presence: lunr.Query.presence.REQUIRED })
+        }   
+    })
+    
+    resultados.currentResults = result.slice(page * resultados.resultsPerPage, (page * resultados.resultsPerPage) + resultados.resultsPerPage);
+    resultados.total= result.length;
+    return resultados;
+}
+    
+function displayResults(result, resultdiv, difuso=0) {
+    if (result.total>0) {
+        // Añadimos el mensaje que informa del número de resultados obtenidos (aria-live=assertive leerá este mensaje de manera no obstrusiva en navegadores tipo jaws)
+        if (!difuso) {
+            resultdiv.append('<h3 className="search-results-count" aria-live="assertive">Mostrando '+result.currentResults.length+' resultados de un total de '+result.total+' <\/h3>');
+        } else {
+            resultdiv.append('<h3 className="search-results-count" aria-live="assertive">No se han encontrado resultados para su búsqueda pero se han encontrado '+result.total+' resultados similares<\/h3>');
+        }
+        // Añadimos un elemento de lista no ordenada que recuperamos a continuación
+        resultdiv.append('<ul className="search-results-list" id="list-results"><\/ul>');
+        var listResults= jQuery('#list-results');
+        // Recorremos la lista de resultados
+        for (var item in result.currentResults) {
+            try {
+                // En el atributo ref del item está almacenada la clave del elemento encontrado. Como en nuestro caso está clave es la posición del elemento en el array json de documentos
+                // podemos acceder a los valores que queremos mostrar con documents[ref].telefono
+                var ref = result.currentResults[item].ref;
+                var searchitem='<li><p><strong>'+documents[ref].nombre+'</strong><\/p><p>'+documents[ref].descripcion+'<\/p><p>'+documents[ref].fecha+'<\/p> <div class="address" property="schema:address" typeof="schema:PostalAddress">  <div class="field-name-field-long-address"><span property="schema:streetAddress">'+documents[ref].domicilio+'<\/span><\/div>  <div class="field-name-field-locality-address">Municipio: <span property="schema:addressLocality">'+documents[ref].localidad.toString()+'<\/span><\/div>  <div class="field-name-field-locality-region">Provincia: <span property="schema:addressRegion">'+documents[ref].provincia+'<\/span><\/div>  <div class="field-name-field-locality-postalcode">Código postal: <span property="schema:postalCode">'+documents[ref].codigo_postal+'<\/span><\/div>  <div class="field-name-field-locality-phone">Teléfono: <span property="schema:telephone" content="'+documents[ref].telefono+'">'+documents[ref].telefono+'<\/span><\/div> <\/div> <\/div><\/li>';
+                listResults.append(searchitem);
+            } catch (error) {
+                console.error(error+ ' item: '+item+' ref:'+ref);
+            }
+        }
+    } else {
+        resultdiv.append('<h3 className="search-results-count" aria-live="assertive">No se han encontrado resultados para esta búsqueda<\/h3>');
+    }
+}
+
+
+function showPager(capa, result, currentPage) {
+    // Mostramos un pagnador simple
+    var numPages= Math.ceil(result.total/result.resultsPerPage);
+    // Sólo pintamos el paginador si hay más de una página
+    if (numPages>1) {
+        var pagerElements= "";
+        pagerElements += '<div class="resultpager"><ul>';
+        for (i=0; i < numPages; i++) {
+            pageLoop= i+1;
+            if (i==currentPage) {
+                pagerElements += '<li class="item-page selected">'+pageLoop+'<\/li>';
+            } else {
+                pagerElements += '<li class="item-page">'+pageLoop+'<\/li>';
+            }
+        }
+        pagerElements += '<\/ul><\/div';
+        capa.append(pagerElements);
+        jQuery('.resultpager li').css('cursor', 'pointer');
+        jQuery('.resultpager li').click(function() {
+            var selectedPage= this.innerText;
+            validateFormOnSubmit(null,selectedPage-1);
+            return false;
+        });
+    }
+}
+    
+function validateFormOnSubmit(theForm, currentPage=0) {
+    var difuso= 0;
+    // Recogemos los criterios de búsqueda
+    var consulta = jQuery('input#search-lunr').val();
+    var municipio = jQuery('#municipio').val();
+    var year = jQuery('#year').val();
+    // Ejecutamos la búsqueda
+    var resultados= searchInLunr(consulta, municipio, year, difuso, currentPage);
+    if (!resultados.total) {
+        difuso= 1;
+        resultados= searchInLunr(consulta, municipio, year, difuso, currentPage);
+    }
+    // Llamamos a pintar resultados pasándole la lista de resultados de búsqueda y la capa donde debe pintar
+    var resultdiv = jQuery('#results');
+    // Limpiamos la capa de resultados
+    resultdiv.empty();
+    showPager(resultdiv, resultados, currentPage);
+    displayResults(resultados, resultdiv, difuso, currentPage);
+    showPager(resultdiv, resultados, currentPage);
+    return false;
+}
+
+function downloadIndex() {
+    var serializedIndex= JSON.stringify(idxTDT);
+    // crear el fichero con la API File
+    var file = new Blob([serializedIndex],{type:"text/plain;charset=utf-8"});
+
+    // Obtener una URL para el fichero que acabas de crear
+    var url  = window.URL.createObjectURL(file);
+
+    // crear un enlace y lo añades al documento
+    var a = document.createElement("a");
+    
+    jQuery("#descarga").append(a);
+
+    // actualizar los parámetros del enlace para descargar el fichero creado
+    a.href = url;
+    a.innerHTML = "Descargar fichero";
+    a.download = file.name;
+
+}
+
+jQuery(document).ready(function() {
+    validateFormOnSubmit(null);
+    jQuery("#search-lunr").on("search paste keyup", function(event) {
+        var st = jQuery(this).val();
+
+        if (st.length === 0) {
+            validateFormOnSubmit(null);
+        } else {
+            // make it async, otherwise the keyboard input is interrupted
+            setTimeout(function() {
+                validateFormOnSubmit(null);
+            }, 100);
+        }
+    });
+    jQuery("#municipio").on("change",function(event) {
+        validateFormOnSubmit(null);
+    });
+    jQuery("#year").on("change",function(event) {
+        validateFormOnSubmit(null);
+    });
+    jQuery("#descarga a").on("click",function(event) {
+        downloadIndex();
+    });
+
+});
+
+</script>
+    <form accept-charset="UTF-8" action="#" class="webform-client-form webform-client-form-99999" id="webform-client-form-99999" method="get" onsubmit="return validateFormOnSubmit(this);" role="search">
+    <div>
+        <fieldset class="webform-component-fieldset webform-component--datos-mensaje panel panel-default form-wrapper">
+        <legend class="panel-heading"> <span class="panel-title fieldset-legend">Consulta de centros de la Comunidad de Madrid:</span> </legend>
+        <div class="panel-body">
+            <div class="form-item webform-component webform-component-textfield webform-component--datos-mensaje--search-lunr webform-container-inline form-group form-inline form-item form-item-submitted-datos-mensaje-search-lunr form-type-textfield form-group" id="input-div">
+            <h1><label class="control-label element-invisible" for="search-lunr" htmlfor="search-lunr">Búsqueda de centros</label></h1>
+            <input alt="Buscador de centros" class="form-control form-text" id="search-lunr" maxlength="60" name="search-lunr" onchange="" placeholder="Búsqueda de centros" size="30" type="text">
+            </div>
+            <div class="form-item form-item-submitted-municipio form-type-select form-group">
+            <select class="municipio form-control form-select" id="municipio" name="municipio">
+                <option value="">Filtro por municipio</option>
+                <option value="Madrid">Madrid</option>
+                <option value="Móstoles">Móstoles</option>
+                <option value="Becerril de la Sierra">Becerril de la Sierra</option>
+                <option value="San Martín de la Vega">San Martín de la Vega</option>
+                <option value="San Martín de Valdeiglesias">San Martín de Valdeiglesias</option>
+            </select>
+            <label class="control-label element-invisible" for="municipio">Filtrar por municipio:</label>
+            </div>
+            <div class="form-item form-item-submitted-year form-type-select form-group">
+            <select class="year form-control form-select" id="year" name="year">
+                <option value="">Filtro por año</option>
+                <option value="2020">2020</option>
+                <option value="2019">2019</option>
+                <option value="2018">2018</option>
+                <option value="2017">2017</option>
+                <option value="2016">2016</option>
+            </select>
+            <label class="control-label element-invisible" for="year">Filtrar por año:</label>
+            </div>
+            <div class="form-actions" id="btn-div"><button class="webform-submit button-primary btn btn-primary form-submit" id="btnSearch" name="op" type="submit" value="Buscar">Buscar</button></div>
+        </div>
+        </fieldset>
+    </div>
+    </form>
+    <section aria-label="Resultados de búsqueda">
+    <div id="results">
+        <h2 aria-live="assertive" classname="search-results-count">Se han encontrado N resultados</h2>
+        <ul classname="search-results-list" id="list-results"></ul>
+    </div>
+    </section>
+    <section aria-label="Resultados de búsqueda">
+    <div id="descarga">
+        <h2><a href="#">Descarga del índice</a></h2>
+        <p>Descarga del índice actual serializado</p>
+    </div>
+    </section>
+  </body>
+</html>
