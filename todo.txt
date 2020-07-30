@@ -1,0 +1,5 @@
+- Ejemplo de cómo unar plugins para evitar que una función del pipeline se aplique sobre un campo en concreto. Esto puede llevar a tipos de campo con pipelines diferentes.
+- Ejemplo de visualización del detalle completo del documento en una capa cuando se hace click sobre el título.
+- Ejemplo de visualización de resultados sobre un mapa. Analizar Open Street Map y leaflet
+- Nuevo capítulo de integración con drupal. Se puede partir de lunr_search mirando cómo modificar el origen de datos para que sea un JSON.
+- Ejemplo de cómo generar el idx en el servidor y, mediante Request, almacenarlo en navegador con Cache API
