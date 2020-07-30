@@ -1,0 +1,70 @@
+<html>
+  <head>
+    <title>Ejemplo de uso de plugins para cargar JSON no estandard</title>
+    <meta content="">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <style></style>
+  </head>
+  <body>
+    <script src="https://www.comunidad.madrid/lunr/2.3.8/lunr.js"></script>
+    <script>
+  var documents= [{
+          'id': { 'id': 614, 'value': 1 },
+          'first_name': { 'id': 244, 'value': 'Johnny' },
+          'last_name': { 'id': 724, 'value': 'Fields' },
+          'email': { 'id': 567, 'value': 'jfields0@barnesandnoble.com' },
+          'gender': { 'id': 220, 'value': 'Male' },
+          'age': { 'id': 745, 'value': 18 }
+        }, {
+          'id': { 'id': 204, 'value': 2 },
+          'first_name': { 'id': 163, 'value': 'Kathy' },
+          'last_name': { 'id': 991, 'value': 'Gilbert' },
+          'email': { 'id': 453, 'value': 'kgilbert1@over-blog.com' },
+          'gender': { 'id': 184, 'value': 'Female' },
+          'age': { 'id': 337, 'value': 50 }
+        }
+    ]
+    </script>
+    <script>
+    var idxTDT = lunr(function () {
+      this.ref('id')
+      this.field('first_name',{
+          extractor: function (doc) {
+              return doc.first_name["value"];
+          }
+      })
+      this.field('last_name',{
+          extractor: function (doc) {
+              return doc.first_name["value"];
+          }
+      })
+      this.field('email',{
+          extractor: function (doc) {
+              return doc.email["value"];
+          }
+      })
+      this.field('gender',{
+          extractor: function (doc) {
+              return doc.gender["value"];
+          }
+      })
+      this.field('age',{
+          extractor: function (doc) {
+              return doc.age["value"];
+          }
+      })
+
+      // b: This parameter controls the importance given to the length of a document and its fields. This value must be between 0 and 1, and by default it has a value of 0.75. Reducing this value reduces the effect of different length documents on a term’s importance to that document.
+      // k1: This controls how quickly the boost given by a common word reaches saturation. Increasing it will slow down the rate of saturation and lower values result in quicker saturation. The default value is 1.2. If the collection of documents being indexed have high occurrences of words that are not covered by a stop word filter, these words can quickly dominate any similarity calculation. In these cases, this value can be reduced to get more balanced results.
+      this.k1(1.2);
+      this.b(0);
+
+      documents.forEach(function (doc) {
+          this.add(doc,{ boost: doc.id })
+      }, this)
+    })
+
+    </script>
+
+  </body>
+</html>
