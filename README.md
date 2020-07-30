@@ -7,51 +7,8 @@ Manual con ejemplo de cómo usar la librería lunr.js
 
 <span class="c2">Versión: 1.0</span>
 
-<span class="c27 c34">[Manual de LUNR](#h.tfoh2k5oxhkh)</span><span class="c34 c27">        </span><span class="c34 c27">[0](#h.tfoh2k5oxhkh)</span>
+<span class="c27 c34">[Manual de LUNR](#h.tfoh2k5oxhkh)</span><span class="c34 c27">        
 
-<span class="c2">[Introducción](#h.91kc88jbg5zw)</span><span class="c2">        </span><span class="c2">[1](#h.91kc88jbg5zw)</span>
-
-<span class="c2">[Un ejemplo básico](#h.o0y634vldk0m)</span><span class="c2">        </span><span class="c2">[2](#h.o0y634vldk0m)</span>
-
-<span class="c2">[Preparando el origen de datos](#h.45y511drkypx)</span><span class="c2">        </span><span class="c2">[3](#h.45y511drkypx)</span>
-
-<span class="c2">[Página de búsqueda](#h.ko95j29xmedd)</span><span class="c2">        </span><span class="c2">[5](#h.ko95j29xmedd)</span>
-
-<span class="c2">[Análisis de los resultados de la búsqueda](#h.oq5agwmpf1zq)</span><span class="c2">        </span><span class="c2">[9](#h.oq5agwmpf1zq)</span>
-
-<span>[Tuning y gramática del castellano](#h.5jlwyzsrplfw)</span><span>        </span><span>[13](#h.5jlwyzsrplfw)</span>
-
-<span class="c2">[Asignando relevancia a los campos según su importancia](#h.dk7euelpu8iv)</span><span class="c2">        </span><span class="c2">[13](#h.dk7euelpu8iv)</span>
-
-<span class="c2">[Algoritmo de búsqueda de lunr](#h.llj3hkka8moo)</span><span class="c2">        </span><span class="c2">[14](#h.llj3hkka8moo)</span>
-
-<span class="c2">[Usando la gramática del castellano](#h.l983wsuwtlzl)</span><span class="c2">        </span><span class="c2">[14](#h.l983wsuwtlzl)</span>
-
-<span class="c2">[Análisis de los resultados de la búsqueda](#h.4nii7yula5ij)</span><span class="c2">        </span><span class="c2">[16](#h.4nii7yula5ij)</span>
-
-<span class="c2">[Filtros y códigos postales](#h.ffydmksid8yj)</span><span class="c2">        </span><span class="c2">[16](#h.ffydmksid8yj)</span>
-
-<span class="c2">[Búsqueda avanzada](#h.264tgsdup7s9)</span><span class="c2">        </span><span class="c2">[22](#h.264tgsdup7s9)</span>
-
-<span class="c2">[Búsquedas difusas](#h.9enlc5ihlmvu)</span><span class="c2">        </span><span class="c2">[22](#h.9enlc5ihlmvu)</span>
-
-<span class="c2">[Construcción de Query programáticamente](#h.n9diwfpo4my5)</span><span class="c2">        </span><span class="c2">[24](#h.n9diwfpo4my5)</span>
-
-<span class="c2">[Paginación](#h.drfszcjkeyxv)</span><span class="c2">        </span><span class="c2">[27](#h.drfszcjkeyxv)</span>
-
-<span class="c2">[Trabajando con fechas](#h.ccfgqxr0zw5c)</span><span class="c2">        </span><span class="c2">[29](#h.ccfgqxr0zw5c)</span>
-
-<span class="c2">[Documentos destacados](#h.k30939new0es)</span><span class="c2">        </span><span class="c2">[30](#h.k30939new0es)</span>
-
-<span class="c2">[Serialización](#h.lsek4mokcmi9)</span><span class="c2">        </span><span class="c2">[32](#h.lsek4mokcmi9)</span>
-
-<span>[Los filtros no funcionan](#h.dja0qib5bhv7)</span><span>        </span><span>[33](#h.dja0qib5bhv7)</span>
-
-<span>[Consideraciones finales](#h.2tl60doo6kvr)</span><span>        </span><span>[35](#h.2tl60doo6kvr)</span>
-
-<span class="c2">[Mejoras en la librería](#h.yawyqdsgfzvx)</span><span class="c2">        </span><span class="c2">[35](#h.yawyqdsgfzvx)</span>
-
-<span class="c2">[Otras librerías](#h.clccx59huqch)</span><span class="c2">        </span><span class="c2">[35](#h.clccx59huqch)</span>
 
 <span class="c2"></span>
 
