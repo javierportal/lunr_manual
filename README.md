@@ -666,8 +666,14 @@ Manual con ejemplo de cómo usar la librería lunr.js
 
 <span class="c11 c10">A continuación, debemos generar un json a partir del excel. Una búsqueda en google de “generates json from excel” nos ofrecerá una serie utilidades online que permiten transformar CSV en JSON. Obtendremos algo similar a esto:</span>
 ```json
-<span class="c6">[ 
-  {   "id": 0,   "nombre": "Biblioteca Pública Hortaleza",   "domicilio": "Calle Abertura, s/n",   "codigo_postal": 28033,   "provincia": "Madrid",   "localidad": "Madrid",   "telefono": 917633284 }, {   "id": 1,   "nombre": "Biblioteca Pública Moratalaz",   "domicilio": "Calle Corregidor Alonso de Tobar, 5",   "codigo_postal": 28030,   "provincia": "Madrid",   "localidad": "Madrid",   "telefono": 914394688 }, {   "id": 2,   "nombre": "Biblioteca Pública Ruiz Egea (Chamberí)",   "domicilio": "Calle de Raimundo Fernández Villaverde, 6",   "codigo_postal": 28003,   "provincia": "Madrid",   "localidad": "Madrid",   "telefono": 915349029 }, {   "id": 3,   "nombre": "Biblioteca Pública María Moliner (Villaverde)",   "domicilio": "Calle de Villalonso, 14",   "codigo_postal": 28021,   "provincia": "Madrid",   "localidad": "Madrid",   "telefono": 917230194 }, {   "id": 4,   "nombre": "Residencia y centro de día Parque Coimbra",   "domicilio": "Avda. de los Sauces, 55",   "codigo_postal": 28935,   "provincia": "Madrid",   "localidad": "Móstoles",   "telefono": 916461893 }]</span>
+[
+  {   "id": 0,   "nombre": "Biblioteca Pública Hortaleza",   "domicilio": "Calle Abertura, s/n",   "codigo_postal": 28033,   "provincia": "Madrid",   "localidad": "Madrid",   "telefono": 917633284 }, 
+  {   "id": 1,   "nombre": "Biblioteca Pública Moratalaz",   "domicilio": "Calle Corregidor Alonso de Tobar, 5",   "codigo_postal": 28030,   "provincia": "Madrid",   "localidad": "Madrid",   "telefono": 914394688 }, 
+  {   "id": 2,   "nombre": "Biblioteca Pública Ruiz Egea (Chamberí)",   "domicilio": "Calle de Raimundo Fernández Villaverde, 6",   "codigo_postal": 28003,   "provincia": "Madrid",   "localidad": "Madrid",   "telefono": 915349029 }, 
+  {   "id": 3,   "nombre": "Biblioteca Pública María Moliner (Villaverde)",   "domicilio": "Calle de Villalonso, 14",   "codigo_postal": 28021,   "provincia": "Madrid",   "localidad": "Madrid",   "telefono": 917230194 }, 
+  {   "id": 4,   "nombre": "Residencia y centro de día Parque Coimbra",   "domicilio": "Avda. de los Sauces, 55",   "codigo_postal": 28935,   "provincia": "Madrid",   "localidad": "Móstoles",   "telefono": 916461893 }
+]
+
 ```
 <span class="c11 c10">Más adelante podríamos minimizar este json para que se cargue en una sola línea. También hay diversas herramientas de minify en línea.</span>
 
