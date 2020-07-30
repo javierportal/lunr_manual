@@ -667,13 +667,12 @@ Manual con ejemplo de cómo usar la librería lunr.js
 <span class="c11 c10">A continuación, debemos generar un json a partir del excel. Una búsqueda en google de “generates json from excel” nos ofrecerá una serie utilidades online que permiten transformar CSV en JSON. Obtendremos algo similar a esto:</span>
 ```json
 [
-  {   "id": 0,   "nombre": "Biblioteca Pública Hortaleza",   "domicilio": "Calle Abertura, s/n",   "codigo_postal": 28033,   "provincia": "Madrid",   "localidad": "Madrid",   "telefono": 917633284 }, 
-  {   "id": 1,   "nombre": "Biblioteca Pública Moratalaz",   "domicilio": "Calle Corregidor Alonso de Tobar, 5",   "codigo_postal": 28030,   "provincia": "Madrid",   "localidad": "Madrid",   "telefono": 914394688 }, 
-  {   "id": 2,   "nombre": "Biblioteca Pública Ruiz Egea (Chamberí)",   "domicilio": "Calle de Raimundo Fernández Villaverde, 6",   "codigo_postal": 28003,   "provincia": "Madrid",   "localidad": "Madrid",   "telefono": 915349029 }, 
-  {   "id": 3,   "nombre": "Biblioteca Pública María Moliner (Villaverde)",   "domicilio": "Calle de Villalonso, 14",   "codigo_postal": 28021,   "provincia": "Madrid",   "localidad": "Madrid",   "telefono": 917230194 }, 
-  {   "id": 4,   "nombre": "Residencia y centro de día Parque Coimbra",   "domicilio": "Avda. de los Sauces, 55",   "codigo_postal": 28935,   "provincia": "Madrid",   "localidad": "Móstoles",   "telefono": 916461893 }
+  {"id": 0,"nombre": "Biblioteca Pública Hortaleza","domicilio": "Calle Abertura, s/n","codigo_postal": 28033,"provincia": "Madrid","localidad": "Madrid","telefono": 917633284 }, 
+  {"id": 1,"nombre": "Biblioteca Pública Moratalaz","domicilio": "Calle Corregidor Alonso de Tobar, 5","codigo_postal": 28030,"provincia": "Madrid","localidad": "Madrid","telefono": 914394688 }, 
+  {"id": 2,"nombre": "Biblioteca Pública Ruiz Egea (Chamberí)","domicilio": "Calle de Raimundo Fernández Villaverde, 6","codigo_postal": 28003,"provincia": "Madrid","localidad": "Madrid","telefono": 915349029 }, 
+  {"id": 3,"nombre": "Biblioteca Pública María Moliner (Villaverde)","domicilio": "Calle de Villalonso, 14","codigo_postal": 28021,"provincia": "Madrid","localidad": "Madrid","telefono": 917230194 }, 
+  {"id": 4,"nombre": "Residencia y centro de día Parque Coimbra","domicilio": "Avda. de los Sauces, 55","codigo_postal": 28935,"provincia": "Madrid","localidad": "Móstoles","telefono": 916461893 }
 ]
-
 ```
 <span class="c11 c10">Más adelante podríamos minimizar este json para que se cargue en una sola línea. También hay diversas herramientas de minify en línea.</span>
 
@@ -682,84 +681,57 @@ Manual con ejemplo de cómo usar la librería lunr.js
 <span class="c11 c10">Vamos a escribir una página con un formulario de búsqueda sencillo en html que permita búsqueda libre y filtrar por municipio.</span>
 
 <span class="c11 c10">Cargamos el json en un array llamado documents:</span>
+```javascript
+<script>
 
-<span class="c4">  <script></span>
+<span class="c4">  var documents= [
 
-<span class="c4">  var documents= [</span>
+{"id": 0,"nombre": "Biblioteca Pública Hortaleza","domicilio": "Calle Abertura, s/n","codigo_postal": 28033,"provincia": "Madrid","localidad": "Madrid","telefono": 917633284
 
-<span class="c4">    {"id": 0,"nombre": "Biblioteca Pública Hortaleza","domicilio": "Calle Abertura, s/n","codigo_postal": 28033,"provincia": "Madrid","localidad": "Madrid","telefono": 917633284},</span>
+{"id": 1,"nombre": "Biblioteca Pública Moratalaz","domicilio": "Calle Corregidor Alonso de Tobar, 5","codigo_postal": 28030,"provincia": "Madrid","localidad": "Madrid","telefono": 914394688
 
-<span class="c4">    {"id": 1,"nombre": "Biblioteca Pública Moratalaz","domicilio": "Calle Corregidor Alonso de Tobar, 5","codigo_postal": 28030,"provincia": "Madrid","localidad": "Madrid","telefono": 914394688},</span>
+{"id": 2,"nombre": "Biblioteca Pública Ruiz Egea (Chamberí)","domicilio": "Calle de Raimundo Fernández Villaverde, 6","codigo_postal": 28003,"provincia": "Madrid","localidad": "Madrid","telefono": 915349029
 
-<span class="c4">    {"id": 2,"nombre": "Biblioteca Pública Ruiz Egea (Chamberí)","domicilio": "Calle de Raimundo Fernández Villaverde, 6","codigo_postal": 28003,"provincia": "Madrid","localidad": "Madrid","telefono": 915349029},</span>
+{"id": 3,"nombre": "Biblioteca Pública María Moliner (Villaverde)","domicilio": "Calle de Villalonso, 14","codigo_postal": 28021,"provincia": "Madrid","localidad": "Madrid","telefono": 917230194
 
-<span class="c4">    {"id": 3,"nombre": "Biblioteca Pública María Moliner (Villaverde)","domicilio": "Calle de Villalonso, 14","codigo_postal": 28021,"provincia": "Madrid","localidad": "Madrid","telefono": 917230194},</span>
+{"id": 4,"nombre": "Residencia y centro de día Parque Coimbra","domicilio": "Avda. de los Sauces, 55","codigo_postal": 28935,"provincia": "Madrid","localidad": "Móstoles","telefono": 916461893}
 
-<span class="c4">    {"id": 4,"nombre": "Residencia y centro de día Parque Coimbra","domicilio": "Avda. de los Sauces, 55","codigo_postal": 28935,"provincia": "Madrid","localidad": "Móstoles","telefono": 916461893}</span>
-
-<span class="c4">  ]</span>
-
-<span class="c4">  </script></span>
-
+]
+</script>
+```
 <span class="c11 c10"></span>
 
 <span class="c11 c10">A continuación, escribimos un formulario de búsqueda con una sección para mostrar los resultados. Como vamos a utilizar este código sobre un gestor de contenidos Drupal nos interesa usar los estilos del componente webform que ya están adaptados a la identidad corporativa del portal. También se han añadido clases y componentes para mejorar la accesibilidad de este formulario, como etiquetas aria.</span>
-
-<span class="c16"><form</span> <span class="c19">accept-charset</span><span class="c16">=</span><span class="c20">"UTF-8"</span><span class="c16"> </span><span class="c19">action</span><span class="c16">=</span><span class="c20">"#"</span><span class="c16"> </span><span class="c19">class</span><span class="c16">=</span><span class="c20">"webform-client-form webform-client-form-99999"</span><span class="c16"> </span><span class="c19">id</span><span class="c16">=</span><span class="c20">"webform-client-form-99999"</span><span class="c16"> </span><span class="c19">method</span><span class="c16">=</span><span class="c20">"get"</span><span class="c16"> </span><span class="c19">onsubmit</span><span class="c16">=</span><span class="c20">"return validateFormOnSubmit(this);"</span><span class="c16"> </span><span class="c19">role</span><span class="c16">=</span><span class="c20">"search"</span><span class="c16">></span>
-
-<span class="c15"></span> <span class="c16"><div></span>
-
-<span class="c15"></span> <span class="c16"><fieldset</span> <span class="c19">class</span><span class="c16">=</span><span class="c20">"webform-component-fieldset webform-component--datos-mensaje panel panel-default form-wrapper"</span><span class="c16">></span>
-
-<span class="c15"></span> <span class="c16"><legend</span> <span class="c19">class</span><span class="c16">=</span><span class="c20">"panel-heading"</span><span class="c16">></span><span class="c15"> </span><span class="c16"><span</span> <span class="c19">class</span><span class="c16">=</span><span class="c20">"panel-title fieldset-legend"</span><span class="c16">></span><span class="c15">Consulta de centros de la Comunidad de Madrid:</span><span class="c16"></span></span><span class="c15"> </span><span class="c16"></legend></span>
-
-<span class="c15"></span> <span class="c16"><div</span> <span class="c19">class</span><span class="c16">=</span><span class="c20">"panel-body"</span><span class="c16">></span>
-
-<span class="c15"></span> <span class="c16"><div</span> <span class="c19">class</span><span class="c16">=</span><span class="c20">"form-item webform-component webform-component-textfield webform-component--datos-mensaje--search-lunr webform-container-inline form-group form-inline form-item form-item-submitted-datos-mensaje-search-lunr form-type-textfield form-group"</span><span class="c16"> </span><span class="c19">id</span><span class="c16">=</span><span class="c20">"input-div"</span><span class="c16">></span>
-
-<span class="c15"></span> <span class="c16"><h1><label</span> <span class="c19">class</span><span class="c16">=</span><span class="c20">"control-label element-invisible"</span><span class="c16"> </span><span class="c19">for</span><span class="c16">=</span><span class="c20">"search-lunr"</span><span class="c16"> </span><span class="c19">htmlfor</span><span class="c16">=</span><span class="c20">"search-lunr"</span><span class="c16">></span><span class="c15">Búsqueda de centros</span><span class="c16"></label></h1></span>
-
-<span class="c15"></span> <span class="c16"><input</span> <span class="c19">alt</span><span class="c16">=</span><span class="c20">"Buscador de centros"</span><span class="c16"> </span><span class="c19">class</span><span class="c16">=</span><span class="c20">"form-control form-text"</span><span class="c16"> </span><span class="c19">id</span><span class="c16">=</span><span class="c20">"search-lunr"</span><span class="c16"> </span><span class="c19">maxlength</span><span class="c16">=</span><span class="c20">"60"</span><span class="c16"> </span><span class="c19">name</span><span class="c16">=</span><span class="c20">"search-lunr"</span><span class="c16"> </span><span class="c19">onchange</span><span class="c16">=</span><span class="c20">""</span><span class="c16"> </span><span class="c19">placeholder</span><span class="c16">=</span><span class="c20">"Búsqueda de centros"</span><span class="c16"> </span><span class="c19">size</span><span class="c16">=</span><span class="c20">"30"</span><span class="c16"> </span><span class="c19">type</span><span class="c16">=</span><span class="c20">"text"</span><span class="c16">></span>
-
-<span class="c15"></span> <span class="c16"></div></span>
-
-<span class="c15"></span> <span class="c16"><div</span> <span class="c19">class</span><span class="c16">=</span><span class="c20">"form-item form-item-submitted-municipio form-type-select form-group"</span><span class="c16">></span>
-
-<span class="c15"></span> <span class="c16"><select</span> <span class="c19">class</span><span class="c16">=</span><span class="c20">"municipio form-control form-select"</span><span class="c16"> </span><span class="c19">id</span><span class="c16">=</span><span class="c20">"municipio"</span><span class="c16"> </span><span class="c19">name</span><span class="c16">=</span><span class="c20">"municipio"</span><span class="c16">></span>
-
-<span class="c15"></span> <span class="c16"><option</span> <span class="c19">value</span><span class="c16">=</span><span class="c20">""</span><span class="c16">></span><span class="c15">Filtro por municipio</span><span class="c16"></option></span>
-
-<span class="c15"></span> <span class="c16"><option</span> <span class="c19">value</span><span class="c16">=</span><span class="c20">"Madrid"</span><span class="c16">></span><span class="c15">Madrid</span><span class="c16"></option></span>
-
-<span class="c15"></span> <span class="c16"><option</span> <span class="c19">value</span><span class="c16">=</span><span class="c20">"Móstoles"</span><span class="c16">></span><span class="c15">Móstoles</span><span class="c16"></option></span>
-
-<span class="c15"></span> <span class="c16"></select></span>
-
-<span class="c15"></span> <span class="c16"><label</span> <span class="c19">class</span><span class="c16">=</span><span class="c20">"control-label element-invisible"</span><span class="c16"> </span><span class="c19">for</span><span class="c16">=</span><span class="c20">"municipio"</span><span class="c16">></span><span class="c15">Filtrar por municipio:</span><span class="c16"></label></span>
-
-<span class="c15"></span> <span class="c16"></div></span>
-
-<span class="c15"></span> <span class="c16"><div</span> <span class="c19">class</span><span class="c16">=</span><span class="c20">"form-actions"</span><span class="c16"> </span><span class="c19">id</span><span class="c16">=</span><span class="c20">"btn-div"</span><span class="c16">><button</span> <span class="c19">class</span><span class="c16">=</span><span class="c20">"webform-submit button-primary btn btn-primary form-submit"</span><span class="c16"> </span><span class="c19">id</span><span class="c16">=</span><span class="c20">"btnSearch"</span><span class="c16"> </span><span class="c19">name</span><span class="c16">=</span><span class="c20">"op"</span><span class="c16"> </span><span class="c19">type</span><span class="c16">=</span><span class="c20">"submit"</span><span class="c16"> </span><span class="c19">value</span><span class="c16">=</span><span class="c20">"Buscar"</span><span class="c16">></span><span class="c15">Buscar</span><span class="c16"></button></div></span>
-
-<span class="c15"></span> <span class="c16"></div></span>
-
-<span class="c15"></span> <span class="c16"></fieldset></span>
-
-<span class="c15"></span> <span class="c16"></div></span>
-
-<span class="c16"></form></span>
-
-<span class="c16"><section</span> <span class="c19">aria-label</span><span class="c16">=</span><span class="c20">"Resultados de búsqueda"</span><span class="c16">></span>
-
-<span class="c15"></span> <span class="c16"><div</span> <span class="c19">id</span><span class="c16">=</span><span class="c20">"results"</span><span class="c16">></span>
-
-<span class="c15"></span> <span class="c16"><h2</span> <span class="c19">aria-live</span><span class="c16">=</span><span class="c20">"assertive"</span><span class="c16"> </span><span class="c19">classname</span><span class="c16">=</span><span class="c20">"search-results-count"</span><span class="c16">></span><span class="c15">Se han encontrado N resultados</span><span class="c16"></h2></span>
-
-<span class="c15"></span> <span class="c16"><ul</span> <span class="c19">classname</span><span class="c16">=</span><span class="c20">"search-results-list"</span><span class="c16"> </span><span class="c19">id</span><span class="c16">=</span><span class="c20">"list-results"</span><span class="c16">></ul></span>
-
-<span class="c15"></span> <span class="c16"></div></span>
-
-<span class="c16 c38"></section></span>
+```html
+<form accept-charset="UTF-8" action="#" class="webform-client-form webform-client-form-99999" id="webform-client-form-99999" method="get" onsubmit="return validateFormOnSubmit(this);" role="search">
+  <div>
+    <fieldset class="webform-component-fieldset webform-component--datos-mensaje panel panel-default form-wrapper">
+      <legend class="panel-heading"> <span class="panel-title fieldset-legend">Consulta de centros de la Comunidad de Madrid:</span> </legend>
+      <div class="panel-body">
+        <div class="form-item webform-component webform-component-textfield webform-component--datos-mensaje--search-lunr webform-container-inline form-group form-inline form-item form-item-submitted-datos-mensaje-search-lunr form-type-textfield form-group" id="input-div">
+          <h1><label class="control-label element-invisible" for="search-lunr" htmlfor="search-lunr">Búsqueda de centros</label></h1>
+          <input alt="Buscador de centros" class="form-control form-text" id="search-lunr" maxlength="60" name="search-lunr" onchange="" placeholder="Búsqueda de centros" size="30" type="text">
+        </div>
+        <div class="form-item form-item-submitted-municipio form-type-select form-group">
+          <select class="municipio form-control form-select" id="municipio" name="municipio">
+            <option value="">Filtro por municipio</option>
+            <option value="Madrid">Madrid</option>
+            <option value="Móstoles">Móstoles</option>
+          </select>
+          <label class="control-label element-invisible" for="municipio">Filtrar por municipio:</label>
+        </div>
+        <div class="form-actions" id="btn-div"><button class="webform-submit button-primary btn btn-primary form-submit" id="btnSearch" name="op" type="submit" value="Buscar">Buscar</button></div>
+      </div>
+    </fieldset>
+  </div>
+</form>
+<section aria-label="Resultados de búsqueda">
+  <div id="results">
+    <h2 aria-live="assertive" classname="search-results-count">Se han encontrado N resultados</h2>
+    <ul classname="search-results-list" id="list-results"></ul>
+  </div>
+</section>
+```
 
 <span class="c11 c10"></span>
 
@@ -769,119 +741,71 @@ Manual con ejemplo de cómo usar la librería lunr.js
 *   <span class="c11 c10">Buscar en el índice de Lunr</span>
 *   <span class="c11 c10">Modificar la sección de resultados para incluir la lista de centros</span>
 *   <span class="c11 c10">Devolver false para que no se envíe el formulario.</span>
-
-<span class="c4">    <script></span>
-
-<span class="c4">       function validateFormOnSubmit(theForm) {</span>
-
-<span class="c4">            // Recogemos los criterios de búsqueda</span>
-
-<span class="c4">            var query = jQuery('input#search-lunr').val();</span>
-
-<span class="c4">            var municipio = jQuery('#municipio').val();</span>
-
-<span class="c4">            // Ejecutamos la búsqueda</span>
-
-<span class="c4">            var resultados= searchInLunr(query,municipio);</span>
-
-<span class="c4">            // Llamamos a pintar resultados pasándole la lista de resultados de búsqueda y la capa donde debe pintar</span>
-
-<span class="c4">            var resultdiv = jQuery('#results');</span>
-
-<span class="c4">            displayResults(resultados, resultdiv);</span>
-
-<span class="c4">            return false;</span>
-
-<span class="c4">        }</span>
-
-<span class="c4">    </script></span>
-
+```javascript
+<script>
+   function validateFormOnSubmit(theForm) {
+        // Recogemos los criterios de búsqueda
+        var query = jQuery('input#search-lunr').val();
+        var municipio = jQuery('#municipio').val();
+        // Ejecutamos la búsqueda
+        var resultados= searchInLunr(query,municipio);
+        // Llamamos a pintar resultados pasándole la lista de resultados de búsqueda y la capa donde debe pintar
+        var resultdiv = jQuery('#results');
+        displayResults(resultados, resultdiv);
+        return false;
+    }
+</script>
+```
 <span class="c11 c10"></span>
 
 <span class="c10">Observar que en la función anterior se está utilizando jQuery como selector de elementos del DOM. Hay otros maneras de conseguir esta funcionalidad sin tener que importar jquery pero el portal en el que vamos a integrar esta funcionalidad ya incluye esta librería. Observar también que se ha modificado el selector $ por jQuery para evitar conflictos con el gestor de contenidos. De no ser así la línea</span> <span class="c30">jQuery('#results')</span><span class="c10">sería</span> <span class="c30">$('#results').</span>
 
 <span class="c11 c10">En la función displayResults nos recorremos el listado de resultados devueltos por la búsqueda y lo vamos añadiendo a la capa html de resultados. Añadimos también marcado RDFa para el tipo address de schema.org</span>
-
-<span class="c4">function displayResults(result, resultdiv) {</span>
-
-<span class="c4">    // Limpiamos la capa de resultados</span>
-
-<span class="c4">    resultdiv.empty();</span>
-
-<span class="c4">    if (result.length>0) {</span>
-
-<span class="c4">        // Añadimos el mensaje que informa del número de resultados obtenidos (aria-live=assertive leerá este mensaje de manera no obstrusiva en navegadores tipo jaws)</span>
-
-<span class="c4">        resultdiv.append('<h3 className="search-results-count" aria-live="assertive">Se han encontrado '+result.length+' resultados<\/h3>');</span>
-
-<span class="c4">        // Añadimos un elemento de lista no ordenada que recuperamos a continuación</span>
-
-<span class="c4">        resultdiv.append('<ul className="search-results-list" id="list-results"><\/ul>');</span>
-
-<span class="c4">        var listResults= jQuery('#list-results');</span>
-
-<span class="c4">        // Recorremos la lista de resultados</span>
-
-<span class="c4">        for (var item in result) {</span>
-
-<span class="c4">            try {</span>
-
-<span class="c4">                // En el atributo ref del item está almacenada la clave del elemento encontrado. Como en nuestro caso está clave es la posición del elemento en el array json de documentos</span>
-
-<span class="c4">                // podemos acceder a los valores que queremos mostrar con documents[ref].telefono</span>
-
-<span class="c4">                var ref = result[item].ref;</span>
-
-<span class="c4">                var searchitem='<li><p><strong>'+documents[ref].nombre+'</strong><\/p>  <div class="address" property="schema:address" typeof="schema:PostalAddress">  <div class="field-name-field-long-address"><span property="schema:streetAddress">'+documents[ref].domicilio+'<\/span><\/div>  <div class="field-name-field-locality-address">Municipio: <span property="schema:addressLocality">'+documents[ref].localidad.toString()+'<\/span><\/div>  <div class="field-name-field-locality-region">Provincia: <span property="schema:addressRegion">'+documents[ref].provincia+'<\/span><\/div>  <div class="field-name-field-locality-postalcode">Código postal: <span property="schema:postalCode">'+documents[ref].codigo_postal+'<\/span><\/div>  <div class="field-name-field-locality-phone">Teléfono: <span property="schema:telephone" content="'+documents[ref].telefono+'">'+documents[ref].telefono+'<\/span><\/div> <\/div> <\/div><\/li>';</span>
-
-<span class="c4">                listResults.append(searchitem);</span>
-
-<span class="c4">            } catch (error) {</span>
-
-<span class="c4">                console.error(error+ ' item: '+item+' ref:'+ref);</span>
-
-<span class="c4">            }</span>
-
-<span class="c4">        }</span>
-
-<span class="c4">    } else {</span>
-
-<span class="c4">        resultdiv.append('<h3 className="search-results-count" aria-live="assertive">No se han encontrado resultados para esta búsqueda<\/h3>');</span>
-
-<span class="c4">    }</span>
-
-<span class="c4">}</span>
-
+```javascript
+function displayResults(result, resultdiv) {
+    // Limpiamos la capa de resultados
+    resultdiv.empty();
+    if (result.length>0) {
+        // Añadimos el mensaje que informa del número de resultados obtenidos (aria-live=assertive leerá este mensaje de manera no obstrusiva en navegadores tipo jaws)
+        resultdiv.append('<h3 className="search-results-count" aria-live="assertive">Se han encontrado '+result.length+' resultados<\/h3>');
+        // Añadimos un elemento de lista no ordenada que recuperamos a continuación
+        resultdiv.append('<ul className="search-results-list" id="list-results"><\/ul>');
+        var listResults= jQuery('#list-results');
+        // Recorremos la lista de resultados
+        for (var item in result) {
+            try {
+                // En el atributo ref del item está almacenada la clave del elemento encontrado. Como en nuestro caso está clave es la posición del elemento en el array json de documentos
+                // podemos acceder a los valores que queremos mostrar con documents[ref].telefono
+                var ref = result[item].ref;
+                var searchitem='<li><p><strong>'+documents[ref].nombre+'</strong><\/p>  <div class="address" property="schema:address" typeof="schema:PostalAddress">  <div class="field-name-field-long-address"><span property="schema:streetAddress">'+documents[ref].domicilio+'<\/span><\/div>  <div class="field-name-field-locality-address">Municipio: <span property="schema:addressLocality">'+documents[ref].localidad.toString()+'<\/span><\/div>  <div class="field-name-field-locality-region">Provincia: <span property="schema:addressRegion">'+documents[ref].provincia+'<\/span><\/div>  <div class="field-name-field-locality-postalcode">Código postal: <span property="schema:postalCode">'+documents[ref].codigo_postal+'<\/span><\/div>  <div class="field-name-field-locality-phone">Teléfono: <span property="schema:telephone" content="'+documents[ref].telefono+'">'+documents[ref].telefono+'<\/span><\/div> <\/div> <\/div><\/li>';
+                listResults.append(searchitem);
+            } catch (error) {
+                console.error(error+ ' item: '+item+' ref:'+ref);
+            }
+        }
+    } else {
+        resultdiv.append('<h3 className="search-results-count" aria-live="assertive">No se han encontrado resultados para esta búsqueda<\/h3>');
+    }
+}
+```
 <span class="c4"></span>
 
 <span class="c11 c10">A continuación, en la función searchInLunr, vamos a montar una consulta muy simple utilizando el método search. Más adelante, veremos cómo montar consultas con el método query que nos permite una mayor refinación de la búsqueda. El método search admite una consulta enunciada como una cadena que puede contener modificadores y operadores que nos permiten controlar cómo queremos filtrar y ordenar los resultados de la búsqueda.</span>
-
-<span class="c4">function searchInLunr(consulta,municipio) {</span>
-
-<span class="c4">    var cadenaBusqueda= '';</span>
-
-<span class="c4">    if (consulta && consulta.length > 0) {</span>
-
-<span class="c4">        cadenaBusqueda += ''+consulta+'';</span>
-
-<span class="c4">        if (municipio && municipio.length > 0) {</span>
-
-<span class="c4">            cadenaBusqueda += ' +localidad:'+municipio;</span>
-
-<span class="c4">        }</span>
-
-<span class="c4">    } else if (municipio && municipio.length > 0) {</span>
-
-<span class="c4">        cadenaBusqueda += '+localidad:'+municipio;</span>
-
-<span class="c4">    }</span>
-
-<span class="c4">    var result = idxTDT.search(cadenaBusqueda);</span>
-
-<span class="c4">    return result;</span>
-
-<span class="c4">}</span>
-
+```javascript
+function searchInLunr(consulta,municipio) {
+    var cadenaBusqueda= '';
+    if (consulta && consulta.length > 0) {
+        cadenaBusqueda += ''+consulta+'';
+        if (municipio && municipio.length > 0) {
+            cadenaBusqueda += ' +localidad:'+municipio;
+        }
+    } else if (municipio && municipio.length > 0) {
+        cadenaBusqueda += '+localidad:'+municipio;
+    }
+    var result = idxTDT.search(cadenaBusqueda);
+    return result;
+}
+```
 <span class="c11 c10"></span>
 
 <span class="c11 c10">Si el usuario introdujera los siguientes valores en el formulario:</span>
@@ -894,39 +818,24 @@ Manual con ejemplo de cómo usar la librería lunr.js
 <span class="c10">Lo que aún no hemos hecho es cargar el índice de Lunr. Para poder utilizar la librería de búsqueda lunr.js hay que incluir el javascript específico. La librería de lunr se encuentra en el repositorio</span> <span class="c3">[https://github.com/olivernn/lunr.js/](https://www.google.com/url?q=https://github.com/olivernn/lunr.js/&sa=D&ust=1596099094026000&usg=AOvVaw0zJMrgnFoPi2GZ1NN5f2Sp)</span><span class="c10">que se puede descargar con git mediante</span> <span class="c30">git clone</span> <span class="c1">[https://github.com/olivernn/lunr.js.git](https://www.google.com/url?q=https://github.com/olivernn/lunr.js.git&sa=D&ust=1596099094027000&usg=AOvVaw3xhCEO3iMw2lssYW6gVAjr)</span>
 
 <span class="c11 c10">A continuación, mostramos el código que carga la librería e inicializa el índice.</span>
+```javascript
+<script src="https://www.comunidad.madrid/lunr/2.3.8/lunr.js"></script>
+<script>
+var idxTDT = lunr(function () {
+    // Definimos los campos del índice (parece que store no está soportado por lo que los campos para pintar resultados hay que sacarlos del array de documents
+    this.ref('id')
+    this.field('nombre')
+    this.field('domicilio')
+    this.field('codigo_postal')
+    this.field('provincia')
+    this.field('localidad')
+    this.field('telefono')
 
-<span class="c4"><script src="https://www.comunidad.madrid/lunr/2.3.8/lunr.js"></script></span>
-
-<span class="c4"><script></span>
-
-<span class="c4">var idxTDT = lunr(function () {</span>
-
-<span class="c4">    // Definimos los campos del índice (parece que store no está soportado por lo que los campos para pintar resultados hay que sacarlos del array de documents</span>
-
-<span class="c4">    this.ref('id')</span>
-
-<span class="c4">    this.field('nombre')</span>
-
-<span class="c4">    this.field('domicilio')</span>
-
-<span class="c4">    this.field('codigo_postal')</span>
-
-<span class="c4">    this.field('provincia')</span>
-
-<span class="c4">    this.field('localidad')</span>
-
-<span class="c4">    this.field('telefono')</span>
-
-<span class="c4">   </span>
-
-<span class="c4">    documents.forEach(function (doc) {</span>
-
-<span class="c4">        this.add(doc)</span>
-
-<span class="c4">    }, this)</span>
-
-<span class="c4">})</span>
-
+    documents.forEach(function (doc) {
+        this.add(doc)
+    }, this)
+})
+```
 <span class="c11 c10"></span>
 
 <span class="c11 c10">Lo único que se hace en este fragmento de código es definir el esquema de campos y recorrer el array json añadiendo los documentos al índice.</span>
@@ -947,29 +856,19 @@ Manual con ejemplo de cómo usar la librería lunr.js
 <span class="c11 c10">Con el juego de pruebas anterior podríamos dar por válido el buscador. Vamos a utilizar un juego de pruebas mayor con más registros incluyendo además un nuevo atributo descripción.</span>
 
 <span class="c11 c10">El array del nuevo juego de pruebas sería éste:</span>
-
-<span class="c4">var documents= [</span>
-
-<span class="c4">{"id":0,"nombre":"Biblioteca Pública Hortaleza","descripcion":"moratalaz","domicilio":"Calle Abertura, s/n", "codigo_postal":28033, "provincia":"Madrid", "localidad":"Madrid", "telefono":917633284},</span>
-
-<span class="c4">{"id":1,"nombre":"Biblioteca Pública Moratalaz de Comunicacion","descripcion":"Egea ruiz","domicilio":"Calle Corregidor Alonso de Tobar, 5", "codigo_postal":28030, "provincia":"Madrid", "localidad":"Madrid", "telefono":914394688},</span>
-
-<span class="c4">{"id":2,"nombre":"Biblioteca Pública Ruiz Egea (Chamberí)","descripcion":"maría","domicilio":"Calle de Raimundo Fernández Villaverde, 6","codigo_postal":28003,"provincia":"Madrid","localidad":"Madrid","telefono":915349029},</span>
-
-<span class="c4">{"id":3,"nombre":"Biblioteca Pública María Moliner (Villaverde)","descripcion":"mostoles","domicilio":"Calle de Villalonso, 14","codigo_postal":28021,"provincia":"Madrid","localidad":"Madrid","telefono":917230194},</span>
-
-<span class="c4">{"id":4,"nombre":"Residencia y centro de día Parque Coimbra","descripcion":"Siguiendo los protocolos sanitarios, los materiales en soporte físico pasarán por una cuarentena de 3 días tras su devolución, antes de estar disponible de nuevo en préstamo, garantizando así la seguridad de trabajadores y usuarios. Asimismo, y con el fin de asegurar una devolución escalonada de los documentos, se ha procedido a modificar la fecha de devolución de los ejemplares activos hasta el lunes 7 de septiembre de 2020.","domicilio":"Avda. de los Sauces, 55","codigo_postal":28935,"provincia":"Madrid","localidad":"Móstoles","telefono":916461893},</span>
-
-<span class="c4">{"id":5,"nombre":"Biblioteca Pública Móstoles","descripcion":"muchas casitas, comunicación","domicilio":"Calle de Villalonso, 14", "codigo_postal":28935, "provincia":"Madrid", "localidad":"Móstoles","telefono":917230194},</span>
-
-<span class="c4">{"id":6,"nombre":"Biblioteca de test","descripcion":"Especialista en telecomunicaciones, casas, edificios, trenes, ","domicilio":"Avenida principal, 1","codigo_postal":28135,"provincia":"Madrid","localidad":"Becerril de la Sierra","telefono":917230194},</span>
-
-<span class="c4">{"id":7,"nombre":"Residencia de test 2","descripcion":"CIF: A123456789","domicilio":"Plaza mayor, 1","codigo_postal":28125,"provincia":"Madrid","localidad":"San Martín de Valdeiglesias","telefono":917633284},</span>
-
-<span class="c4">{"id":8,"nombre":"Residencia de test 3","descripcion":"CIF: A123456789","domicilio":"Plaza mayor, 1","codigo_postal":28126,"provincia":"Madrid","localidad":"San Martín de la Vega","telefono":917660284}</span>
-
-<span class="c4">]</span>
-
+```javascript
+var documents= [
+{"id":0,"nombre":"Biblioteca Pública Hortaleza","descripcion":"moratalaz","domicilio":"Calle Abertura, s/n", "codigo_postal":28033, "provincia":"Madrid", "localidad":"Madrid", "telefono":917633284},
+{"id":1,"nombre":"Biblioteca Pública Moratalaz de Comunicacion","descripcion":"Egea ruiz","domicilio":"Calle Corregidor Alonso de Tobar, 5", "codigo_postal":28030, "provincia":"Madrid", "localidad":"Madrid", "telefono":914394688},
+{"id":2,"nombre":"Biblioteca Pública Ruiz Egea (Chamberí)","descripcion":"maría","domicilio":"Calle de Raimundo Fernández Villaverde, 6","codigo_postal":28003,"provincia":"Madrid","localidad":"Madrid","telefono":915349029},
+{"id":3,"nombre":"Biblioteca Pública María Moliner (Villaverde)","descripcion":"mostoles","domicilio":"Calle de Villalonso, 14","codigo_postal":28021,"provincia":"Madrid","localidad":"Madrid","telefono":917230194},
+{"id":4,"nombre":"Residencia y centro de día Parque Coimbra","descripcion":"Siguiendo los protocolos sanitarios, los materiales en soporte físico pasarán por una cuarentena de 3 días tras su devolución, antes de estar disponible de nuevo en préstamo, garantizando así la seguridad de trabajadores y usuarios. Asimismo, y con el fin de asegurar una devolución escalonada de los documentos, se ha procedido a modificar la fecha de devolución de los ejemplares activos hasta el lunes 7 de septiembre de 2020.","domicilio":"Avda. de los Sauces, 55","codigo_postal":28935,"provincia":"Madrid","localidad":"Móstoles","telefono":916461893},
+{"id":5,"nombre":"Biblioteca Pública Móstoles","descripcion":"muchas casitas, comunicación","domicilio":"Calle de Villalonso, 14", "codigo_postal":28935, "provincia":"Madrid", "localidad":"Móstoles","telefono":917230194},
+{"id":6,"nombre":"Biblioteca de test","descripcion":"Especialista en telecomunicaciones, casas, edificios, trenes, ","domicilio":"Avenida principal, 1","codigo_postal":28135,"provincia":"Madrid","localidad":"Becerril de la Sierra","telefono":917230194},
+{"id":7,"nombre":"Residencia de test 2","descripcion":"CIF: A123456789","domicilio":"Plaza mayor, 1","codigo_postal":28125,"provincia":"Madrid","localidad":"San Martín de Valdeiglesias","telefono":917633284},
+{"id":8,"nombre":"Residencia de test 3","descripcion":"CIF: A123456789","domicilio":"Plaza mayor, 1","codigo_postal":28126,"provincia":"Madrid","localidad":"San Martín de la Vega","telefono":917660284}
+]
+```
 <span class="c11 c10">Ejecutamos a continuación el siguiente juego de pruebas que no ofrecen los resultados esperados:</span>
 
 *   <span class="c10">Si buscamos “egea” el primer resultado es “</span><span class="c27 c10">Biblioteca Pública Moratalaz de Comunicacion</span><span class="c10">” porque en la descripción hemos añadido el texto “Egea”. Debería mostrar primero el resultado de la biblioteca que contiene esta palabra en el título, pero</span> <span class="c60 c10">aún no hemos asignado una relevancia mayor a los campos más importantes</span><span class="c11 c10"> así que lunr, por defecto, asigna el valor 1 como relevancia a todos los campos.</span>
@@ -1043,37 +942,23 @@ Manual con ejemplo de cómo usar la librería lunr.js
 ### <span class="c28">Asignando relevancia a los campos según su importancia</span>
 
 <span class="c11 c10">Con lunr.js podemos asignar diferente relevancia a los campos tanto en tiempo de indexación como en tiempo de consulta. En este apartado vamos a asignar relevancia a cada campo durante la creación del índice que genera consultas más óptimas.</span>
+```javascript
+var idxTDT = lunr(function () {
+    // Definimos los campos del índice
+    this.ref('id')
+    this.field('nombre', {boost: 12})
+    this.field('descripcion', {boost: 8})
+    this.field('domicilio')
+    this.field('codigo_postal')
+    this.field('provincia')
+    this.field('localidad', {boost: 5})
+    this.field('telefono')
 
-<span class="c4">var idxTDT = lunr(function () {</span>
-
-<span class="c4">    // Definimos los campos del índice</span>
-
-<span class="c4">    this.ref('id')</span>
-
-<span class="c4">    this.field('nombre', {boost: 12})</span>
-
-<span class="c4">    this.field('descripcion', {boost: 8})</span>
-
-<span class="c4">    this.field('domicilio')</span>
-
-<span class="c4">    this.field('codigo_postal')</span>
-
-<span class="c4">    this.field('provincia')</span>
-
-<span class="c4">    this.field('localidad', {boost: 5})</span>
-
-<span class="c4">    this.field('telefono')</span>
-
-<span class="c4">   </span>
-
-<span class="c4">    documents.forEach(function (doc) {</span>
-
-<span class="c4">        this.add(doc)</span>
-
-<span class="c4">    }, this)</span>
-
-<span class="c4">})</span>
-
+    documents.forEach(function (doc) {
+        this.add(doc)
+    }, this)
+})
+```
 <span class="c11 c10"></span>
 
 <span class="c11 c10">En el código anterior se ha considerado que los campos más importantes del documento son nombre, descripción y localidad en este orden. Al resto de los campos no se les asigna ninguna relevancia por lo que tendrían el boost por defecto (1).</span>
@@ -1088,9 +973,9 @@ Manual con ejemplo de cómo usar la librería lunr.js
 
 <span class="c11 c10">En algunos ejemplos en internet se pueden encontrar otros atributos que se asignan a los campos durante la creación del índice que en lunr.js no tienen ningún efecto. Por ejemplo:</span>
 
-<span class="c4">    this.field('localidad', {boost: 5,store:true})</span>
+this.field('localidad', {boost: 5,store:true})</span>
 
-<span class="c4">    this.field('telefono', {index:false,store:true})</span>
+this.field('telefono', {index:false,store:true})</span>
 
 <span class="c11 c10"></span>
 
@@ -1109,13 +994,13 @@ Manual con ejemplo de cómo usar la librería lunr.js
 
 <span class="c11 c10">Por tanto, añadimos las siguientes líneas al código en la construcción del índice:</span>
 
-<span class="c4">     // b: This parameter controls the importance given to the length of a document and its fields. This value must be between 0 and 1, and by default it has a value of 0.75\. Reducing this value reduces the effect of different length documents on a term’s importance to that document.</span>
+ // b: This parameter controls the importance given to the length of a document and its fields. This value must be between 0 and 1, and by default it has a value of 0.75\. Reducing this value reduces the effect of different length documents on a term’s importance to that document.</span>
 
-<span class="c4">     // k1: This controls how quickly the boost given by a common word reaches saturation. Increasing it will slow down the rate of saturation and lower values result in quicker saturation. The default value is 1.2\. If the collection of documents being indexed have high occurrences of words that are not covered by a stop word filter, these words can quickly dominate any similarity calculation. In these cases, this value can be reduced to get more balanced results.</span>
+ // k1: This controls how quickly the boost given by a common word reaches saturation. Increasing it will slow down the rate of saturation and lower values result in quicker saturation. The default value is 1.2\. If the collection of documents being indexed have high occurrences of words that are not covered by a stop word filter, these words can quickly dominate any similarity calculation. In these cases, this value can be reduced to get more balanced results.</span>
 
-<span class="c4">     this.k1(1.2);</span>
+ this.k1(1.2);</span>
 
-<span class="c4">     this.b(0);</span>
+ this.b(0);</span>
 
 <span class="c11 c10"></span>
 
@@ -1141,9 +1026,9 @@ Manual con ejemplo de cómo usar la librería lunr.js
 
 <span class="c11 c10">Y en la inicialización del índice debemos incluir la llamada a la función que le indica que debe usar el pipeline del castellano:</span>
 
-<span class="c4">     // Configuramos lenguaje castellano</span>
+ // Configuramos lenguaje castellano</span>
 
-<span class="c4">     this.use(lunr.es);</span>
+ this.use(lunr.es);</span>
 
 <span class="c11 c10"></span>
 
@@ -1200,28 +1085,19 @@ Manual con ejemplo de cómo usar la librería lunr.js
 
 <span class="c11 c10">Si en el array JSON de carga del índice escapamos un campo como si se tratara de un array Lunr entenderá que cada uno de los valores que componen el array es un valor completo que no requiere de tokenización (aunque seguirá realizando stemming como veremos más adelante). Así que primero vamos a escapar el campo localidad como si se tratara de un array en el JSON:</span>
 
-<span class="c4">var documents= [</span>
-
-<span class="c4">{"id":0,"nombre":"Biblioteca Pública Hortaleza de Comunicación","descripcion":"moratalaz","domicilio":"Calle Abertura, s/n","codigo_postal":28033,"provincia":"Madrid","localidad":["Madrid"],"telefono":917633284},</span>
-
-<span class="c4">{"id":1,"nombre":"Biblioteca Pública Moratalaz de Comunicacion","descripcion":"Egea ruiz","domicilio":"Calle Corregidor Alonso de Tobar, 5","codigo_postal":28030,"provincia":"Madrid","localidad":["Madrid"],"telefono":914394688},</span>
-
-<span class="c4">{"id":2,"nombre":"Biblioteca Pública Ruiz Egea (Chamberí) de comunicaciones","descripcion":"maría","domicilio":"Calle de Raimundo Fernández Villaverde, 6","codigo_postal":28003,"provincia":"Madrid","localidad":["Madrid"],"telefono":915349029},</span>
-
-<span class="c4">{"id":3,"nombre":"Biblioteca Pública María Moliner (Villaverde)","descripcion":"mostoles","domicilio":"Calle de Villalonso, 14","codigo_postal":28021,"provincia":"Madrid","localidad":["Madrid"],"telefono":917230194},</span>
-
-<span class="c4">{"id":4,"nombre":"Residencia y centro de día Parque Coimbra","descripcion":"Siguiendo los protocolos sanitarios, los materiales en soporte físico pasarán por una cuarentena de 3 días tras su devolución, antes de estar disponible de nuevo en préstamo, garantizando así la seguridad de trabajadores y usuarios. Asimismo, y con el fin de asegurar una devolución escalonada de los documentos, se ha procedido a modificar la fecha de devolución de los ejemplares activos hasta el lunes 7 de septiembre de 2020.","domicilio":"Avda. de los Sauces, 55","codigo_postal":28935,"provincia":"Madrid","localidad":["Móstoles"],"telefono":916461893},</span>
-
-<span class="c4">{"id":5,"nombre":"Biblioteca Pública Móstoles","descripcion":"muchas casitas, comunicación","domicilio":"Calle de Villalonso, 14","codigo_postal":28935,"provincia":"Madrid","localidad":["Móstoles"],"telefono":917230194},</span>
-
-<span class="c4">{"id":6,"nombre":"Biblioteca de test","descripcion":"Especialista en telecomunicaciones, casas, edificios, trenes, ","domicilio":"Avenida principal, 1","codigo_postal":28135,"provincia":"Madrid","localidad":["Becerril de la Sierra"],"telefono":917230194},</span>
-
-<span class="c4">{"id":7,"nombre":"Residencia de test 2","descripcion":"CIF: A123456789","domicilio":"Plaza mayor, 1","codigo_postal":28125,"provincia":"Madrid","localidad":["San Martín de Valdeiglesias"],"telefono":917633284},</span>
-
-<span class="c4">{"id":8,"nombre":"Residencia de test 3","descripcion":"devolver libros","domicilio":"Plaza mayor, 1","codigo_postal":28126,"provincia":"Madrid","localidad":["San Martín de la Vega"],"telefono":917660284}</span>
-
-<span class="c30">]</span>
-
+```javascript
+var documents= [
+{"id":0,"nombre":"Biblioteca Pública Hortaleza de Comunicación","descripcion":"moratalaz","domicilio":"Calle Abertura, s/n","codigo_postal":28033,"provincia":"Madrid","localidad":["Madrid"],"telefono":917633284},
+{"id":1,"nombre":"Biblioteca Pública Moratalaz de Comunicacion","descripcion":"Egea ruiz","domicilio":"Calle Corregidor Alonso de Tobar, 5","codigo_postal":28030,"provincia":"Madrid","localidad":["Madrid"],"telefono":914394688},
+{"id":2,"nombre":"Biblioteca Pública Ruiz Egea (Chamberí) de comunicaciones","descripcion":"maría","domicilio":"Calle de Raimundo Fernández Villaverde, 6","codigo_postal":28003,"provincia":"Madrid","localidad":["Madrid"],"telefono":915349029},
+{"id":3,"nombre":"Biblioteca Pública María Moliner (Villaverde)","descripcion":"mostoles","domicilio":"Calle de Villalonso, 14","codigo_postal":28021,"provincia":"Madrid","localidad":["Madrid"],"telefono":917230194},
+{"id":4,"nombre":"Residencia y centro de día Parque Coimbra","descripcion":"Siguiendo los protocolos sanitarios, los materiales en soporte físico pasarán por una cuarentena de 3 días tras su devolución, antes de estar disponible de nuevo en préstamo, garantizando así la seguridad de trabajadores y usuarios. Asimismo, y con el fin de asegurar una devolución escalonada de los documentos, se ha procedido a modificar la fecha de devolución de los ejemplares activos hasta el lunes 7 de septiembre de 2020.","domicilio":"Avda. de los Sauces, 55","codigo_postal":28935,"provincia":"Madrid","localidad":["Móstoles"],"telefono":916461893},
+{"id":5,"nombre":"Biblioteca Pública Móstoles","descripcion":"muchas casitas, comunicación","domicilio":"Calle de Villalonso, 14","codigo_postal":28935,"provincia":"Madrid","localidad":["Móstoles"],"telefono":917230194},
+{"id":6,"nombre":"Biblioteca de test","descripcion":"Especialista en telecomunicaciones, casas, edificios, trenes, ","domicilio":"Avenida principal, 1","codigo_postal":28135,"provincia":"Madrid","localidad":["Becerril de la Sierra"],"telefono":917230194},
+{"id":7,"nombre":"Residencia de test 2","descripcion":"CIF: A123456789","domicilio":"Plaza mayor, 1","codigo_postal":28125,"provincia":"Madrid","localidad":["San Martín de Valdeiglesias"],"telefono":917633284},
+{"id":8,"nombre":"Residencia de test 3","descripcion":"devolver libros","domicilio":"Plaza mayor, 1","codigo_postal":28126,"provincia":"Madrid","localidad":["San Martín de la Vega"],"telefono":917660284}
+]
+```
 <span class="c11 c10">Para comprobar que los municipios se están indexando correctamente podemos inspeccionar el índice con el debugger del navegador:</span>
 
 <span style="overflow: hidden; display: inline-block; margin: 0.00px 0.00px; border: 0.00px solid #000000; transform: rotate(0.00rad) translateZ(0px); -webkit-transform: rotate(0.00rad) translateZ(0px); width: 427.00px; height: 333.00px;">![](images/image1.png)</span>
@@ -1229,151 +1105,100 @@ Manual con ejemplo de cómo usar la librería lunr.js
 <span class="c11 c10">Se puede observar que no se han tokenizado ninguno de los dos municipios aunque sí se les ha aplicado el stemming del castellano suprimiendo la terminación de la última palabra. También se pasa a minúsculas, se eliminan las tildes, etc.</span>
 
 <span class="c11 c10">Para realizar la búsqueda vamos a aplicar el segundo método de escapar los caracteres blancos del municipio seleccionado en el desplegable. Primero escribimos una función que realice esta tarea:</span>
-
-<span class="c4">function scapeSpaces(cadena) {</span>
-
-<span class="c4">    // El solr según el tipo de campo se aplica uno u otro procesador/analizador.</span>
-
-<span class="c4">    // En lunr no veo implementada esa funcionalidad. Por tanto, para el equivalente al string de solr</span>
-
-<span class="c4">    // implementamos una función que escapa los espacios para que no tokenice separando por palabras y</span>
-
-<span class="c4">    // se pueda buscar sobre un campo por búsqueda exacta. OJO: No hace busqueda exacta porque hace stemming sobre</span>
-
-<span class="c4">    // la última palabra, es decir, Alcalá de Henares --> Alcala\\ de\\ Henares --> Alcala\\ de\\ Henare</span>
-
-<span class="c4">    try {</span>
-
-<span class="c4">    if (cadena && cadena.length > 0) {</span>
-
-<span class="c4">        if (Array.isArray(cadena)) {</span>
-
-<span class="c4">            for (var item in cadena) {</span>
-
-<span class="c4">                cadena[item]= scapeSpaces(cadena[item]);</span>
-
-<span class="c4">            }</span>
-
-<span class="c4">            return cadena;</span>
-
-<span class="c4">        } else {</span>
-
-<span class="c4">            return cadena.replace(/\s/g, "\\ ");</span>
-
-<span class="c4">        }</span>
-
-<span class="c4">    } else {</span>
-
-<span class="c4">        return "";</span>
-
-<span class="c4">    }</span>
-
-<span class="c4">    } catch (error) {</span>
-
-<span class="c4">    console.error(error);</span>
-
-<span class="c4">    }</span>
-
-<span class="c4">}</span>
-
+```javascript
+function scapeSpaces(cadena) {
+    // El solr según el tipo de campo se aplica uno u otro procesador/analizador.
+    // En lunr no veo implementada esa funcionalidad. Por tanto, para el equivalente al string de solr
+    // implementamos una función que escapa los espacios para que no tokenice separando por palabras y
+    // se pueda buscar sobre un campo por búsqueda exacta. OJO: No hace busqueda exacta porque hace stemming sobre
+    // la última palabra, es decir, Alcalá de Henares --> Alcala\\ de\\ Henares --> Alcala\\ de\\ Henare
+    try {
+    if (cadena && cadena.length > 0) {
+        if (Array.isArray(cadena)) {
+            for (var item in cadena) {
+                cadena[item]= scapeSpaces(cadena[item]);
+            }
+            return cadena;
+        } else {
+            return cadena.replace(/\s/g, "\\ ");
+        }
+    } else {
+        return "";
+    }
+    } catch (error) {
+    console.error(error);
+    }
+}
+```
 <span class="c11 c10">Y llamaremos a esta función en el método en que se recoge el valor del desplegable y se compone la query:</span>
-
-<span class="c4">function searchInLunr(consulta,municipio) {</span>
-
-<span class="c4">    var cadenaBusqueda= '';</span>
-
-<span class="c4">    if (consulta && consulta.length > 0) {</span>
-
-<span class="c4">        cadenaBusqueda += ''+consulta+'';</span>
-
-<span class="c4">        if (municipio && municipio.length > 0) {</span>
-
-<span class="c4">            cadenaBusqueda += ' +localidad:'+scapeSpaces(municipio);</span>
-
-<span class="c4">        }</span>
-
-<span class="c4">    } else if (municipio && municipio.length > 0) {</span>
-
-<span class="c4">        cadenaBusqueda += '+localidad:'+scapeSpaces(municipio);</span>
-
-<span class="c4">    }</span>
-
-<span class="c4">    var result = idxTDT.search(cadenaBusqueda);</span>
-
-<span class="c4">    return result;</span>
-
-<span class="c4">}</span>
-
+```javascript
+function searchInLunr(consulta,municipio) {
+    var cadenaBusqueda= '';
+    if (consulta && consulta.length > 0) {
+        cadenaBusqueda += ''+consulta+'';
+        if (municipio && municipio.length > 0) {
+            cadenaBusqueda += ' +localidad:'+scapeSpaces(municipio);
+        }
+    } else if (municipio && municipio.length > 0) {
+        cadenaBusqueda += '+localidad:'+scapeSpaces(municipio);
+    }
+    var result = idxTDT.search(cadenaBusqueda);
+    return result;
+}
+```
 <span class="c11 c10">Después de hacer esto, las búsquedas filtrando por cualquiera de los dos municipios del ejemplo arrojan sólo el resultado correcto.</span>
 
 <span class="c11 c10">El segundo problema que detectábamos en la anterior fase de test era que se había perdido la búsqueda por distrito postal. En realidad, al introducir la gramática en castellano se están eliminando todos los números con lo que no se podrían hacer búsquedas por conceptos NIF/DNI, teléfonos, distritos, etc. La causa está en la función de trimmer que se ha implementado en esta librería y que utiliza el siguiente patrón para saber qué caracteres debe mantener tras el proceso de limpieza y el resto los elimina:</span>
+```
+/* lunr trimmer function */
 
-<span class="c4">    /* lunr trimmer function */</span>
-
-<span class="c4">    lunr.es.wordCharacters = "A-Za-z\xAA\xBA\xC0-\xD6\xD8-\xF6\xF8-\u02B8\u02E0-\u02E4\u1D00-\u1D25\u1D2C-\u1D5C\u1D62-\u1D65\u1D6B-\u1D77\u1D79-\u1DBE\u1E00-\u1EFF\u2071\u207F\u2090-\u209C\u212A\u212B\u2132\u214E\u2160-\u2188\u2C60-\u2C7F\uA722-\uA787\uA78B-\uA7AD\uA7B0-\uA7B7\uA7F7-\uA7FF\uAB30-\uAB5A\uAB5C-\uAB64\uFB00-\uFB06\uFF21-\uFF3A\uFF41-\uFF5A";</span>
-
+lunr.es.wordCharacters = "A-Za-z\xAA\xBA\xC0-\xD6\xD8-\xF6\xF8-\u02B8\u02E0-\u02E4\u1D00-\u1D25\u1D2C-\u1D5C\u1D62-\u1D65\u1D6B-\u1D77\u1D79-\u1DBE\u1E00-\u1EFF\u2071\u207F\u2090-\u209C\u212A\u212B\u2132\u214E\u2160-\u2188\u2C60-\u2C7F\uA722-\uA787\uA78B-\uA7AD\uA7B0-\uA7B7\uA7F7-\uA7FF\uAB30-\uAB5A\uAB5C-\uAB64\uFB00-\uFB06\uFF21-\uFF3A\uFF41-\uFF5A";
+```
 <span class="c11 c10"></span>
 
 <span class="c11 c10">Lo más sencillo es tocar el una copia local la librería original (copia local del fichero lunr.es.js) para permitir los caracteres 0-9 en este atributo quedando del siguiente modo:</span>
+```
+/* lunr trimmer function */
 
-<span class="c4">    /* lunr trimmer function */</span>
-
-<span class="c30">    lunr.es.wordCharacters = "A-Za-z0-9\xAA\xBA\xC0-\xD6\xD8-\xF6\xF8-\u02B8\u02E0-\u02E4\u1D00-\u1D25\u1D2C-\u1D5C\u1D62-\u1D65\u1D6B-\u1D77\u1D79-\u1DBE\u1E00-\u1EFF\u2071\u207F\u2090-\u209C\u212A\u212B\u2132\u214E\u2160-\u2188\u2C60-\u2C7F\uA722-\uA787\uA78B-\uA7AD\uA7B0-\uA7B7\uA7F7-\uA7FF\uAB30-\uAB5A\uAB5C-\uAB64\uFB00-\uFB06\uFF21-\uFF3A\uFF41-\uFF5A";</span>
-
+lunr.es.wordCharacters = "A-Za-z0-9\xAA\xBA\xC0-\xD6\xD8-\xF6\xF8-\u02B8\u02E0-\u02E4\u1D00-\u1D25\u1D2C-\u1D5C\u1D62-\u1D65\u1D6B-\u1D77\u1D79-\u1DBE\u1E00-\u1EFF\u2071\u207F\u2090-\u209C\u212A\u212B\u2132\u214E\u2160-\u2188\u2C60-\u2C7F\uA722-\uA787\uA78B-\uA7AD\uA7B0-\uA7B7\uA7F7-\uA7FF\uAB30-\uAB5A\uAB5C-\uAB64\uFB00-\uFB06\uFF21-\uFF3A\uFF41-\uFF5A";
+```
 <span class="c11 c10"></span>
 
 <span class="c10">Lo más correcto sería que hubiera diferentes tipos de atributos y dependiendo del tipo se aplicaran diferentes pipelines. Por ejemplo, podría haber un tipo de campo denominado</span> <span class="c22 c10">alphanumber</span><span class="c10">al que aplicara el anterior expresión regular, mientras que habría otro tipo denominado</span> <span class="c22 c10">text</span><span class="c10"> en que la función trimmer sí eliminara todos los números (se podría definir para el campo direccion y así eliminaríamos el número del portal que puede introducir confusión en la búsqueda).</span>
 
 <span class="c11 c10">En esta primera aproximación, lo que vamos a hacer no es ni la primera solución que es muy burda ni la segunda que preferiríamos porque requiere de reescribir parte de la librería, sino que vamos a optar por reescribir el pipeline existente y sustituir la función trimmer por una propia. Es decir: resetear el pipeline de funciones por defecto que asigna la librería de multilenguaje y asignar nuestras propias funciones intentando aprovechar lo más posible el trabajo ya realizado por los desarrolladores de lunr.js y lunr-languajes. Lo que pretendemos es sustituir la función por defecto de trimmer por una nuestra que haga exactamente lo mismo pero permitiendo los caracteres numéricos. También hay varias formas de abordar este problema pero a continuación mostramos la que nos ha parecido más clara:</span>
-
-<span class="c4">    // No asignamos el lenguage para que la librería no inicialice ningún pipeline</span>
-
-<span class="c4">//    this.use(lunr.es);</span>
-
-<span class="c4">    // Definimos una expresión regular que mantenga los caracteres numéricos</span>
-
-<span class="c4">    var mywordCharacters = "A-Za-z0-9\xAA\xBA\xC0-\xD6\xD8-\xF6\xF8-\u02B8\u02E0-\u02E4\u1D00-\u1D25\u1D2C-\u1D5C\u1D62-\u1D65\u1D6B-\u1D77\u1D79-\u1DBE\u1E00-\u1EFF\u2071\u207F\u2090-\u209C\u212A\u212B\u2132\u214E\u2160-\u2188\u2C60-\u2C7F\uA722-\uA787\uA78B-\uA7AD\uA7B0-\uA7B7\uA7F7-\uA7FF\uAB30-\uAB5A\uAB5C-\uAB64\uFB00-\uFB06\uFF21-\uFF3A\uFF41-\uFF5A";</span>
-
-<span class="c4">    // Generamos una función trimmer idéntica a la proporcionada por la librería pero que usa nuestra expresión regular</span>
-
-<span class="c4">    var trimmerWithNumbers = lunr.trimmerSupport.generateTrimmer(mywordCharacters);</span>
-
-<span class="c4">    // Registramos la nueva función</span>
-
-<span class="c4">    lunr.Pipeline.registerFunction(trimmerWithNumbers, 'trimmerwithnumbers-es');</span>
-
-<span class="c4">    // Eliminamos todas las funciones que pudiera haber en el pipeline</span>
-
-<span class="c4">    this.pipeline.reset();</span>
-
-<span class="c4">    // Creamos nuestro propio pipeline de funciones en el que hemos sustituido el trimmer original y hemos dejado el resto igual</span>
-
-<span class="c4">    this.pipeline.add(</span>
-
-<span class="c4">        trimmerWithNumbers,</span>
-
-<span class="c4">        lunr.es.stopWordFilter,</span>
-
-<span class="c4">        lunr.es.stemmer</span>
-
-<span class="c4">    );</span>
-
-<span class="c4">    // También tenemos que crear el pipeline de búsqueda que al no haber llamado a la función use(lunr.es) no se ha inicializado</span>
-
-<span class="c4">    this.searchPipeline.reset();</span>
-
-<span class="c4">    this.searchPipeline.add(lunr.es.stemmer)</span>
+```
+// No asignamos el lenguage para que la librería no inicialice ningún pipeline
+//    this.use(lunr.es);
+// Definimos una expresión regular que mantenga los caracteres numéricos
+var mywordCharacters = "A-Za-z0-9\xAA\xBA\xC0-\xD6\xD8-\xF6\xF8-\u02B8\u02E0-\u02E4\u1D00-\u1D25\u1D2C-\u1D5C\u1D62-\u1D65\u1D6B-\u1D77\u1D79-\u1DBE\u1E00-\u1EFF\u2071\u207F\u2090-\u209C\u212A\u212B\u2132\u214E\u2160-\u2188\u2C60-\u2C7F\uA722-\uA787\uA78B-\uA7AD\uA7B0-\uA7B7\uA7F7-\uA7FF\uAB30-\uAB5A\uAB5C-\uAB64\uFB00-\uFB06\uFF21-\uFF3A\uFF41-\uFF5A";
+// Generamos una función trimmer idéntica a la proporcionada por la librería pero que usa nuestra expresión regular
+var trimmerWithNumbers = lunr.trimmerSupport.generateTrimmer(mywordCharacters);
+// Registramos la nueva función
+lunr.Pipeline.registerFunction(trimmerWithNumbers, 'trimmerwithnumbers-es');
+// Eliminamos todas las funciones que pudiera haber en el pipeline
+this.pipeline.reset();
+// Creamos nuestro propio pipeline de funciones en el que hemos sustituido el trimmer original y hemos dejado el resto igual
+this.pipeline.add(
+    trimmerWithNumbers,
+    lunr.es.stopWordFilter,
+    lunr.es.stemmer
+);
+// También tenemos que crear el pipeline de búsqueda que al no haber llamado a la función use(lunr.es) no se ha inicializado
+this.searchPipeline.reset();
+this.searchPipeline.add(lunr.es.stemmer)
+```
 
 <span class="c11 c10">De un modo muy similar podríamos haber modificado el array de palabras de stop filter:</span>
+```
+// Configuramos nuestras propias stopwords
 
-<span class="c4">    // Configuramos nuestras propias stopwords</span>
+mystopWordFilter = lunr.generateStopWordFilter('Madrid madrid a al algo algunas algunos ante antes como con contra cual cuando de del desde donde durante e el ella ellas ellos en entre era erais eran eras eres es esa esas ese eso esos esta estaba estabais estaban estabas estad estada estadas estado estados estamos estando estar estaremos estará estarán estarás estaré estaréis estaría estaríais estaríamos estarían estarías estas este estemos esto estos estoy estuve estuviera estuvierais estuvieran estuvieras estuvieron estuviese estuvieseis estuviesen estuvieses estuvimos estuviste estuvisteis estuviéramos estuviésemos estuvo está estábamos estáis están estás esté estéis estén estés fue fuera fuerais fueran fueras fueron fuese fueseis fuesen fueses fui fuimos fuiste fuisteis fuéramos fuésemos ha habida habidas habido habidos habiendo habremos habrá habrán habrás habré habréis habría habríais habríamos habrían habrías habéis había habíais habíamos habían habías han has hasta hay haya hayamos hayan hayas hayáis he hemos hube hubiera hubierais hubieran hubieras hubieron hubiese hubieseis hubiesen hubieses hubimos hubiste hubisteis hubiéramos hubiésemos hubo la las le les lo los me mi mis mucho muchos muy más mí mía mías mío míos nada ni no nos nosotras nosotros nuestra nuestras nuestro nuestros o os otra otras otro otros para pero poco por porque que quien quienes qué se sea seamos sean seas seremos será serán serás seré seréis sería seríais seríamos serían serías seáis sido siendo sin sobre sois somos son soy su sus suya suyas suyo suyos sí también tanto te tendremos tendrá tendrán tendrás tendré tendréis tendría tendríais tendríamos tendrían tendrías tened tenemos tenga tengamos tengan tengas tengo tengáis tenida tenidas tenido tenidos teniendo tenéis tenía teníais teníamos tenían tenías ti tiene tienen tienes todo todos tu tus tuve tuviera tuvierais tuvieran tuvieras tuvieron tuviese tuvieseis tuviesen tuvieses tuvimos tuviste tuvisteis tuviéramos tuviésemos tuvo tuya tuyas tuyo tuyos tú un una uno unos vosotras vosotros vuestra vuestras vuestro vuestros y ya yo él éramos'.split(' '));
 
-<span class="c4">    mystopWordFilter = lunr.generateStopWordFilter('Madrid madrid a al algo algunas algunos ante antes como con contra cual cuando de del desde donde durante e el ella ellas ellos en entre era erais eran eras eres es esa esas ese eso esos esta estaba estabais estaban estabas estad estada estadas estado estados estamos estando estar estaremos estará estarán estarás estaré estaréis estaría estaríais estaríamos estarían estarías estas este estemos esto estos estoy estuve estuviera estuvierais estuvieran estuvieras estuvieron estuviese estuvieseis estuviesen estuvieses estuvimos estuviste estuvisteis estuviéramos estuviésemos estuvo está estábamos estáis están estás esté estéis estén estés fue fuera fuerais fueran fueras fueron fuese fueseis fuesen fueses fui fuimos fuiste fuisteis fuéramos fuésemos ha habida habidas habido habidos habiendo habremos habrá habrán habrás habré habréis habría habríais habríamos habrían habrías habéis había habíais habíamos habían habías han has hasta hay haya hayamos hayan hayas hayáis he hemos hube hubiera hubierais hubieran hubieras hubieron hubiese hubieseis hubiesen hubieses hubimos hubiste hubisteis hubiéramos hubiésemos hubo la las le les lo los me mi mis mucho muchos muy más mí mía mías mío míos nada ni no nos nosotras nosotros nuestra nuestras nuestro nuestros o os otra otras otro otros para pero poco por porque que quien quienes qué se sea seamos sean seas seremos será serán serás seré seréis sería seríais seríamos serían serías seáis sido siendo sin sobre sois somos son soy su sus suya suyas suyo suyos sí también tanto te tendremos tendrá tendrán tendrás tendré tendréis tendría tendríais tendríamos tendrían tendrías tened tenemos tenga tengamos tengan tengas tengo tengáis tenida tenidas tenido tenidos teniendo tenéis tenía teníais teníamos tenían tenías ti tiene tienen tienes todo todos tu tus tuve tuviera tuvierais tuvieran tuvieras tuvieron tuviese tuvieseis tuviesen tuvieses tuvimos tuviste tuvisteis tuviéramos tuviésemos tuvo tuya tuyas tuyo tuyos tú un una uno unos vosotras vosotros vuestra vuestras vuestro vuestros y ya yo él éramos'.split(' '));</span>
+// Registramos la función
 
-<span class="c4">    // Registramos la función</span>
-
-<span class="c4">    lunr.Pipeline.registerFunction(mystopWordFilter, 'extendedstopWordFilter-es');</span>
-
+lunr.Pipeline.registerFunction(mystopWordFilter, 'extendedstopWordFilter-es');
+```
 <span class="c11 c10"></span>
 
 <span class="c11 c10">Tras estos cambios si ejecutamos de nuevo los juegos de prueba que no había funcionado en la versión previa obtenemos resultados correctos:</span>
@@ -1403,13 +1228,11 @@ Manual con ejemplo de cómo usar la librería lunr.js
 ### <span class="c28">Búsquedas difusas</span>
 
 <span class="c11 c10">Antes de nada, vamos a dejar preparada una función que se ejecutará cuando el documento haya finalizado de cargarse en el navegador. De momento, sólo lanzaremos una búsqueda vacía para que se muestren todos los resultados por defecto.</span>
-
-<span class="c4">jQuery(document).ready(function() {</span>
-
-<span class="c4">    validateFormOnSubmit(null);</span>
-
-<span class="c4">});</span>
-
+```
+jQuery(document).ready(function() {
+    validateFormOnSubmit(null);
+});
+```
 <span class="c10 c11"></span>
 
 <span class="c11 c10">Algunos de los caracteres especiales que soporta la función search para modificar el comportamiento de la búsqueda son:</span>
@@ -1423,41 +1246,25 @@ Manual con ejemplo de cómo usar la librería lunr.js
 <span class="c11 c10">El siguiente ejemplo lanza una primera búsqueda con los criterios introducidos por el usuario y esos mismos criterios con asteriscos para que también localice fragmentos de esas palabras dentro de los documentos. Si esta primera consulta no devuelve ningún resultado entonces lanza una segunda consulta informando al usuario de que su búsqueda no obtuvo ningún resultado pero hay documentos similares que le pueden interesar. En esta segunda consulta se permiten hasta 2 errores tipográficos. Para que las diferentes funciones sepan si deben activar las búsquedas con errores tipográficos o no, se les pasa una variable denominada ‘difuso’ que puede valer cero (para las búsquedas normales) o uno (para las búsquedas con errores tipográficos).</span>
 
 <span class="c11 c10">Éste sería el fragmento de código que lanza la búsqueda:</span>
+```
+function searchInLunr(consulta,municipio, difuso=0) {
+    var cadenaBusqueda= '';
+    if (consulta && consulta.length > 0) {
+        cadenaBusqueda += ''+consulta+' *'+consulta+'*';
+        if (difuso ==0) {
+            cadenaBusqueda += ' '+consulta+'~2';
+        }
+        if (municipio && municipio.length > 0) {
+            cadenaBusqueda += ' +localidad:'+scapeSpaces(municipio);
+        }
+    } else if (municipio && municipio.length > 0) {
+        cadenaBusqueda += '+localidad:'+scapeSpaces(municipio);
+    }
 
-<span class="c4">function searchInLunr(consulta,municipio, difuso=0) {</span>
-
-<span class="c4">    var cadenaBusqueda= '';</span>
-
-<span class="c4">    if (consulta && consulta.length > 0) {</span>
-
-<span class="c4">        cadenaBusqueda += ''+consulta+' *'+consulta+'*';</span>
-
-<span class="c4">        if (difuso ==0) {</span>
-
-<span class="c4">            cadenaBusqueda += ' '+consulta+'~2';</span>
-
-<span class="c4">        }</span>
-
-<span class="c4">        if (municipio && municipio.length > 0) {</span>
-
-<span class="c4">            cadenaBusqueda += ' +localidad:'+scapeSpaces(municipio);</span>
-
-<span class="c4">        }</span>
-
-<span class="c4">    } else if (municipio && municipio.length > 0) {</span>
-
-<span class="c4">        cadenaBusqueda += '+localidad:'+scapeSpaces(municipio);</span>
-
-<span class="c4">    }</span>
-
-<span class="c4">           </span>
-
-<span class="c4">    var result = idxTDT.search(cadenaBusqueda);</span>
-
-<span class="c4">    return result;</span>
-
-<span class="c4">}</span>
-
+    var result = idxTDT.search(cadenaBusqueda);
+    return result;
+}
+```
 <span class="c11 c10">Sin embargo, el código anterior no sería correcto. Supongamos que el usuario introduce ‘foo’ en la caja de búsqueda y baz en el desplegable. Entonces el código anterior construiría correctamente la siguiente cadena de búsqueda:</span>
 
 <span class="c4">‘foo *foo* +localidad:baz’</span>
@@ -1467,49 +1274,29 @@ Manual con ejemplo de cómo usar la librería lunr.js
 <span class="c4">‘foo bar *foo bar* +localidad:baz’</span>
 
 <span class="c11 c10">Por lo que debemos recorrernos los términos aplicando los operadores y también deberíamos asignar una mayor relevancia a aquellos términos que no hayan sido modificados.</span>
+```
+function searchInLunr(consulta,municipio, difuso=0) {
+    var cadenaBusqueda= '';
+    if (consulta && consulta.length > 0) {
+        consulta.split(' ').forEach(function (value) {
+            cadenaBusqueda+= value+'^12 '+' *'+value+'* *'+value+' '+value+'* ';
+        });
+        if (difuso) {
+            consulta.split(' ').forEach(function (value) {
+                cadenaBusqueda+= ' '+value+'~2';
+            });
+        }
+        if (municipio && municipio.length > 0) {
+            cadenaBusqueda += ' +localidad:'+scapeSpaces(municipio);
+        }
+    } else if (municipio && municipio.length > 0) {
+        cadenaBusqueda += '+localidad:'+scapeSpaces(municipio);
+    }
 
-<span class="c4">function searchInLunr(consulta,municipio, difuso=0) {</span>
-
-<span class="c4">    var cadenaBusqueda= '';</span>
-
-<span class="c4">    if (consulta && consulta.length > 0) {</span>
-
-<span class="c4">        consulta.split(' ').forEach(function (value) {</span>
-
-<span class="c4">            cadenaBusqueda+= value+'^12 '+' *'+value+'* *'+value+' '+value+'* ';</span>
-
-<span class="c4">        });</span>
-
-<span class="c4">        if (difuso) {</span>
-
-<span class="c4">            consulta.split(' ').forEach(function (value) {</span>
-
-<span class="c4">                cadenaBusqueda+= ' '+value+'~2';</span>
-
-<span class="c4">            });</span>
-
-<span class="c4">        }</span>
-
-<span class="c4">        if (municipio && municipio.length > 0) {</span>
-
-<span class="c4">            cadenaBusqueda += ' +localidad:'+scapeSpaces(municipio);</span>
-
-<span class="c4">        }</span>
-
-<span class="c4">    } else if (municipio && municipio.length > 0) {</span>
-
-<span class="c4">        cadenaBusqueda += '+localidad:'+scapeSpaces(municipio);</span>
-
-<span class="c4">    }</span>
-
-<span class="c4">           </span>
-
-<span class="c4">    var result = idxTDT.search(cadenaBusqueda);</span>
-
-<span class="c4">    return result;</span>
-
-<span class="c4">}</span>
-
+    var result = idxTDT.search(cadenaBusqueda);
+    return result;
+}
+```
 <span class="c11 c10">El anterior código, si el usuario introdujera en la búsqueda libre ‘foo bar’ construiría la siguiente cadena:</span>
 
 <span class="c4">‘foo^12 *foo* *foo foo* bar^12 *bar* *bar bar*’</span>
@@ -1527,53 +1314,31 @@ Manual con ejemplo de cómo usar la librería lunr.js
 ### <span class="c28">Construcción de Query programáticamente</span>
 
 <span class="c11 c10">La función search internamente construye una query similar a la que vamos a construir a continuación compuesta de términos y atributos que modifican el comportamiento de la consulta. Los atributos permitidos en la construcción de los términos nos proporcionan algunas funcionalidades que no estaban disponibles en la for,a anterior como el atributo usePipeline que indica al motor de búsqueda si debe o no usar el pipeline de funciones para el término especificado. Probamos primero con este fragmento:</span>
+```
+function searchInLunr(consulta,municipio, difuso=0) {
 
-<span class="c4">function searchInLunr(consulta,municipio, difuso=0) {</span>
+    var result = idxTDT.query(function (q) {
+        if (consulta && consulta.length > 0) {
+            consulta.split(' ').forEach(function (value) {
+                q.term(value, { boost: 32 }) // exact match
+                q.term(value, { usePipeline: false, wildcard: lunr.Query.wildcard.TRAILING, boost: 8 }) // prefix match, no stemmer
+                q.term(value, { usePipeline: false, wildcard: lunr.Query.wildcard.LEADING, boost: 4 }) // suffix match, no stemmer
+                q.term(value, { usePipeline: false, wildcard: lunr.Query.wildcard.LEADING | lunr.Query.wildcard.TRAILING, boost: 2 }) // suffix and prefix match, no stemmer
+                if (difuso) {
+                    q.term(value, { usePipeline: false, editDistance: value.length>6?2:1, boost: 1 }) // fuzzy matching
+                }
+            });
+            if (municipio && municipio.length > 0) {
+                q.term(municipio, { fields: ["localidad"], usePipeline: false, presence: lunr.Query.presence.REQUIRED })
+            }
+        } else if (municipio && municipio.length > 0) {
+            q.term(municipio, { fields: ["localidad"], usePipeline: false, presence: lunr.Query.presence.REQUIRED })
+        }
+    });
 
-<span class="c4">   </span>
-
-<span class="c4">    var result = idxTDT.query(function (q) {</span>
-
-<span class="c4">        if (consulta && consulta.length > 0) {</span>
-
-<span class="c4">            consulta.split(' ').forEach(function (value) {</span>
-
-<span class="c4">                q.term(value, { boost: 32 }) // exact match</span>
-
-<span class="c4">                q.term(value, { usePipeline: false, wildcard: lunr.Query.wildcard.TRAILING, boost: 8 }) // prefix match, no stemmer</span>
-
-<span class="c4">                q.term(value, { usePipeline: false, wildcard: lunr.Query.wildcard.LEADING, boost: 4 }) // suffix match, no stemmer</span>
-
-<span class="c4">                q.term(value, { usePipeline: false, wildcard: lunr.Query.wildcard.LEADING | lunr.Query.wildcard.TRAILING, boost: 2 }) // suffix and prefix match, no stemmer</span>
-
-<span class="c4">                if (difuso) {</span>
-
-<span class="c4">                    q.term(value, { usePipeline: false, editDistance: value.length>6?2:1, boost: 1 }) // fuzzy matching</span>
-
-<span class="c4">                }</span>
-
-<span class="c4">            });</span>
-
-<span class="c4">            if (municipio && municipio.length > 0) {</span>
-
-<span class="c4">                q.term(municipio, { fields: ["localidad"], usePipeline: false, presence: lunr.Query.presence.REQUIRED })</span>
-
-<span class="c4">            }</span>
-
-<span class="c4">        } else if (municipio && municipio.length > 0) {</span>
-
-<span class="c4">            q.term(municipio, { fields: ["localidad"], usePipeline: false, presence: lunr.Query.presence.REQUIRED })</span>
-
-<span class="c4">        }</span>
-
-<span class="c4">    });</span>
-
-<span class="c4">   </span>
-
-<span class="c4">    return result;</span>
-
-<span class="c4">}</span>
-
+    return result;
+}
+```
 <span class="c11 c10"></span>
 
 <span class="c10">Como se puede observar en vez de usar el operador * usamos</span> <span class="c30">lunr.Query.wildcard.TRAILING y lunr.Query.wildcard.LEADING</span><span class="c11 c10"> con el atributo wildcard para indicar el equivalente al asterisco delante o detrás del término.</span>
@@ -1587,24 +1352,16 @@ Manual con ejemplo de cómo usar la librería lunr.js
 <span class="c11 c10">Vamos a analizar un poco más es uso del atributo usePipeline. Se puede observar que en aquellos términos en que estamos usando wildcards estamos especificando que no use pipeline para tratar el término. Esto está bien, aunque es redundante porque Lunr nunca usa pipeline cuando un término tiene asociado un wildcard. Recordemos que en un test anterior no habíamos conseguido que el motor nos devolviera las bibliotecas usando la palabra ‘teca’ porque al aplicar el pipeline durante la indexación los morfmas almacenados para la palabra biblioteca eran del tipo ‘bibliotec’. Usando esta construcción del objeto Query nos pasa lo mismo: puesto que Lunr ha aplicado el pipeline al indexar y no lo está aplicando sobre el término con wildcard vuelve a no haber coincidencia.</span>
 
 <span class="c11 c10">También se puede observar que en el caso de la búsqueda por municipio hemos eliminado la función de escapar blancos. La estrategia era: si para el campo localidad no aplicamos pipeline ni al indexar ni al buscar, entonces habrá coincidencia sin necesidad de escapar los blancos. Por eso hemos hecho la siguiente modificación en la carga del índice:</span>
-
-<span class="c4">    this.ref('id')</span>
-
-<span class="c4">    this.field('nombre', {boost: 12})</span>
-
-<span class="c4">    this.field('descripcion', {boost: 8})</span>
-
-<span class="c4">    this.field('domicilio')</span>
-
-<span class="c4">    this.field('codigo_postal')</span>
-
-<span class="c4">    this.field('provincia')</span>
-
-<span class="c4">    this.field('localidad', {usePipeline: false, boost: 5})</span>
-
-<span class="c4">    this.field('telefono')</span>
-
-<span class="c11 c10"></span>
+```
+this.ref('id')
+this.field('nombre', {boost: 12})
+this.field('descripcion', {boost: 8})
+this.field('domicilio')
+this.field('codigo_postal')
+this.field('provincia')
+this.field('localidad', {usePipeline: false, boost: 5})
+this.field('telefono')
+```
 
 <span class="c11 c10">Es decir, le hemos indicado a Lunr que no use pipeline para indexar el campo localidad. Desgraciadamente, Lunr ignora este último atributo por lo que va a seguir aplicando stemming sobre los municipios por lo que se va a indexar “san martin de la veg” mientras que se va a buscar por el término “San Martín de la Vega”.</span>
 
@@ -1617,51 +1374,30 @@ Manual con ejemplo de cómo usar la librería lunr.js
 <span class="c11 c10">que encapsula todos los atributos que hemos definido durante la construcción de la query.</span>
 
 <span class="c11 c10">A continuación escribimos una versión del método de búsqueda que implementa algunas mejoras con respecto al anterior:</span>
-
-<span class="c4">function searchInLunr(consulta,municipio, difuso=0) {</span>
-
-<span class="c4">    var result = idxTDT.query(function (q) {</span>
-
-<span class="c4">        if (consulta && consulta.length > 0) {</span>
-
-<span class="c4">            consulta.split(' ').forEach(function (value) {</span>
-
-<span class="c4">                q.term(value, { boost: 32 }) // exact match</span>
-
-<span class="c4">                q.term(value, { usePipeline: false, wildcard: lunr.Query.wildcard.TRAILING, boost: 8 }) // prefix match, no stemmer</span>
-
-<span class="c4">                q.term(value, { usePipeline: false, wildcard: lunr.Query.wildcard.LEADING, boost: 4 }) // suffix match, no stemmer</span>
-
-<span class="c4">                q.term(value, { usePipeline: false, wildcard: lunr.Query.wildcard.LEADING | lunr.Query.wildcard.TRAILING, boost: 2 }) // suffix and prefix match, no stemmer</span>
-
-<span class="c4">                if (difuso) {</span>
-
-<span class="c4">                    q.term(value, { usePipeline: true, wildcard: lunr.Query.wildcard.LEADING, boost: 4 }) // suffix match, stemmer</span>
-
-<span class="c4">                    q.term(value, { usePipeline: false, editDistance: value.length>6?2:1, boost: 1 }) // fuzzy matching</span>
-
-<span class="c4">                }</span>
-
-<span class="c4">            });</span>
-
-<span class="c4">            if (municipio && municipio.length > 0) {</span>
-
-<span class="c4">                q.term(municipio.toLowerCase(), { fields: ["localidad"], usePipeline: true, presence: lunr.Query.presence.REQUIRED })</span>
-
-<span class="c4">            }</span>
-
-<span class="c4">        } else if (municipio && municipio.length > 0) {</span>
-
-<span class="c4">            q.term(municipio.toLowerCase(), { fields: ["localidad"], usePipeline: true, presence: lunr.Query.presence.REQUIRED })</span>
-
-<span class="c4">        }  </span>
-
-<span class="c4">    })</span>
-
-<span class="c4">    return result;</span>
-
-<span class="c4">}</span>
-
+```
+function searchInLunr(consulta,municipio, difuso=0) {
+    var result = idxTDT.query(function (q) {
+        if (consulta && consulta.length > 0) {
+            consulta.split(' ').forEach(function (value) {
+                q.term(value, { boost: 32 }) // exact match
+                q.term(value, { usePipeline: false, wildcard: lunr.Query.wildcard.TRAILING, boost: 8 }) // prefix match, no stemmer
+                q.term(value, { usePipeline: false, wildcard: lunr.Query.wildcard.LEADING, boost: 4 }) // suffix match, no stemmer
+                q.term(value, { usePipeline: false, wildcard: lunr.Query.wildcard.LEADING | lunr.Query.wildcard.TRAILING, boost: 2 }) // suffix and prefix match, no stemmer
+                if (difuso) {
+                    q.term(value, { usePipeline: true, wildcard: lunr.Query.wildcard.LEADING, boost: 4 }) // suffix match, stemmer
+                    q.term(value, { usePipeline: false, editDistance: value.length>6?2:1, boost: 1 }) // fuzzy matching
+                }
+            });
+            if (municipio && municipio.length > 0) {
+                q.term(municipio.toLowerCase(), { fields: ["localidad"], usePipeline: true, presence: lunr.Query.presence.REQUIRED })
+            }
+        } else if (municipio && municipio.length > 0) {
+            q.term(municipio.toLowerCase(), { fields: ["localidad"], usePipeline: true, presence: lunr.Query.presence.REQUIRED })
+        }   
+    })
+    return result;
+}
+```
 <span class="c11 c10"></span>
 
 <span class="c11 c10">Las modificaciones son:</span>
@@ -1680,71 +1416,42 @@ Manual con ejemplo de cómo usar la librería lunr.js
 <span class="c11 c10">Lunr no proporciona ningún mecanismo para realizar la paginación de los resultados por lo que debemos implementar uno por fuera.</span>
 
 <span class="c11 c10">Vamos a crear una función showPager a la que llamaremos antes y después de pintar los resultados de este modo:</span>
-
-<span class="c4">    resultdiv.empty();</span>
-
-<span class="c4">    showPager(resultdiv, resultados, currentPage);</span>
-
-<span class="c4">    displayResults(resultados, resultdiv, difuso, currentPage);</span>
-
-<span class="c4">    showPager(resultdiv, resultados, currentPage);</span>
-
-<span class="c11 c10"></span>
-
+```
+resultdiv.empty();
+showPager(resultdiv, resultados, currentPage);
+displayResults(resultados, resultdiv, difuso, currentPage);
+showPager(resultdiv, resultados, currentPage);
+```
 <span class="c11 c10">A la función le pasamos la capa en la que tiene que pintar, los resultados y la página actual que se está mostrando.</span>
 
 <span class="c11 c10">La función tendrá esta forma:</span>
-
-<span class="c4">function showPager(capa, result, currentPage) {</span>
-
-<span class="c4">    // Mostramos un pagnador simple</span>
-
-<span class="c4">    var numPages= Math.ceil(result.total/result.resultsPerPage);</span>
-
-<span class="c4">    // Sólo pintamos el paginador si hay más de una página</span>
-
-<span class="c4">    if (numPages>1) {</span>
-
-<span class="c4">        var pagerElements= "";</span>
-
-<span class="c4">        pagerElements += '<div class="resultpager"><ul>';</span>
-
-<span class="c4">        for (i=0; i < numPages; i++) {</span>
-
-<span class="c4">            pageLoop= i+1;</span>
-
-<span class="c4">            if (i==currentPage) {</span>
-
-<span class="c4">                pagerElements += '<li class="item-page selected">'+pageLoop+'<\/li>';</span>
-
-<span class="c4">            } else {</span>
-
-<span class="c4">                pagerElements += '<li class="item-page">'+pageLoop+'<\/li>';</span>
-
-<span class="c4">            }</span>
-
-<span class="c4">        }</span>
-
-<span class="c4">        pagerElements += '<\/ul><\/div';</span>
-
-<span class="c4">        capa.append(pagerElements);</span>
-
-<span class="c4">        $('.resultpager li').css('cursor', 'pointer');</span>
-
-<span class="c4">        $('.resultpager li').click(function() {</span>
-
-<span class="c4">            var selectedPage= this.innerText;</span>
-
-<span class="c4">            validateFormOnSubmit(null,selectedPage-1);</span>
-
-<span class="c4">            return false;</span>
-
-<span class="c4">        });</span>
-
-<span class="c4">    }</span>
-
-<span class="c4">}</span>
-
+```
+function showPager(capa, result, currentPage) {
+    // Mostramos un pagnador simple
+    var numPages= Math.ceil(result.total/result.resultsPerPage);
+    // Sólo pintamos el paginador si hay más de una página
+    if (numPages>1) {
+        var pagerElements= "";
+        pagerElements += '<div class="resultpager"><ul>';
+        for (i=0; i < numPages; i++) {
+            pageLoop= i+1;
+            if (i==currentPage) {
+                pagerElements += '<li class="item-page selected">'+pageLoop+'<\/li>';
+            } else {
+                pagerElements += '<li class="item-page">'+pageLoop+'<\/li>';
+            }
+        }
+        pagerElements += '<\/ul><\/div';
+        capa.append(pagerElements);
+        $('.resultpager li').css('cursor', 'pointer');
+        $('.resultpager li').click(function() {
+            var selectedPage= this.innerText;
+            validateFormOnSubmit(null,selectedPage-1);
+            return false;
+        });
+    }
+}
+```
 <span class="c11 c10"></span>
 
 <span class="c11 c10">Hay que explicar que la variable resultados ya no es un array de los elementos devueltos por la consulta. Ahora es una estructura que contiene tres propiedades:</span>
@@ -1764,45 +1471,27 @@ Manual con ejemplo de cómo usar la librería lunr.js
 <span class="c11 c10"></span>
 
 <span class="c11 c10">Ahora vamos a añadir un listener que vaya ejecutando las búsquedas a medida que el usuario vaya escribiendo con el siguiente fragmento de código y otro listener para ejecutar la búsqueda cuando se produce una selección en el desplegable:</span>
+```
+jQuery(document).ready(function() {
+    validateFormOnSubmit(null);
+    jQuery("#search-lunr").on("search paste keyup", function(event) {
+        var st = $(this).val();
 
-<span class="c4">jQuery(document).ready(function() {</span>
+        if (st.length === 0) {
+            validateFormOnSubmit(null);
+        } else {
+            // make it async, otherwise the keyboard input is interrupted
+            setTimeout(function() {
+                validateFormOnSubmit(null);
+            }, 100);
+        }
+    });
+    jQuery("#municipio").on("change",function(event) {
+        validateFormOnSubmit(null);
+    });
 
-<span class="c4">    validateFormOnSubmit(null);</span>
-
-<span class="c4">    jQuery("#search-lunr").on("search paste keyup", function(event) {</span>
-
-<span class="c4">        var st = $(this).val();</span>
-
-<span class="c4"></span>
-
-<span class="c4">        if (st.length === 0) {</span>
-
-<span class="c4">            validateFormOnSubmit(null);</span>
-
-<span class="c4">        } else {</span>
-
-<span class="c4">            // make it async, otherwise the keyboard input is interrupted</span>
-
-<span class="c4">            setTimeout(function() {</span>
-
-<span class="c4">                validateFormOnSubmit(null);</span>
-
-<span class="c4">            }, 100);</span>
-
-<span class="c4">        }</span>
-
-<span class="c4">    });</span>
-
-<span class="c4">    jQuery("#municipio").on("change",function(event) {</span>
-
-<span class="c4">        validateFormOnSubmit(null);</span>
-
-<span class="c4">    });</span>
-
-<span class="c4"></span>
-
-<span class="c4">});</span>
-
+});
+```
 <span class="c11 c10"></span>
 
 ### <span class="c28">Trabajando con fechas</span>
@@ -1812,117 +1501,69 @@ Manual con ejemplo de cómo usar la librería lunr.js
 <span class="c11 c10">Un extractor es una de las herramientas que nos proporciona Lunr para personalizar los algoritmos por defecto. Los extractores se pueden asociar a un campo concreto tal que se ejecuten en tiempo de indexación dándonos la opción de modificar los datos del JSON antes de devolvérselos a Lunr.</span>
 
 <span class="c11 c10">Puesto que hemos modificado el comportamiento del motor de indexación para que no elimine los números al procesar los campos (recordemos que el trimmer del lenguaje castellano no permitía caracteres alfanuméricos) los valores del nuevo campo fecha se van a almacenar correctamente y funcionará consultas de este tipo: idxTDT.search(‘fecha:*2020’). En lugar de eso, vamos a crear un nuevo campo “en el aire” en el que vamos a almacenar sólo el año.</span>
-
-<span class="c4">    // Definimos los campos del índice (parece que store no está aún soportado por lo que los campos para pintar resultados hay que sacarlos del array de documents</span>
-
-<span class="c4">    this.ref('id')</span>
-
-<span class="c4">    this.field('nombre', {boost: 12})</span>
-
-<span class="c4">    this.field('descripcion', {boost: 8})</span>
-
-<span class="c4">    this.field('domicilio')</span>
-
-<span class="c4">    this.field('codigo_postal')</span>
-
-<span class="c4">    this.field('provincia')</span>
-
-<span class="c4">    this.field('localidad', {usePipeline: false, boost: 5})</span>
-
-<span class="c4">    this.field('telefono')</span>
-
-<span class="c4">    this.field('fecha')</span>
-
-<span class="c4">    this.field('year',{</span>
-
-<span class="c4">        extractor: function (doc) {</span>
-
-<span class="c4">            var currentYear= doc.fecha.substring(doc.fecha.lastIndexOf('/')+1);</span>
-
-<span class="c4">            // Debemos añadir este nuevo campo también al array JSON si queremos pintarlo posteriormente</span>
-
-<span class="c4">//            doc.year= currentYear;</span>
-
-<span class="c4">            return currentYear;</span>
-
-<span class="c4">        }</span>
-
-<span class="c4">    })</span>
-
+```
+// Definimos los campos del índice (parece que store no está aún soportado por lo que los campos para pintar resultados hay que sacarlos del array de documents
+this.ref('id')
+this.field('nombre', {boost: 12})
+this.field('descripcion', {boost: 8})
+this.field('domicilio')
+this.field('codigo_postal')
+this.field('provincia')
+this.field('localidad', {usePipeline: false, boost: 5})
+this.field('telefono')
+this.field('fecha')
+this.field('year',{
+    extractor: function (doc) {
+        var currentYear= doc.fecha.substring(doc.fecha.lastIndexOf('/')+1);
+        // Debemos añadir este nuevo campo también al array JSON si queremos pintarlo posteriormente
+//            doc.year= currentYear;
+        return currentYear;
+    }
+})
+```
 <span class="c11 c10">Este nuevo campo sólo tiene sentido para realizar búsquedas ya que para presentar esta información ya tenemos el campo fecha. Cuando creamos un campo “en el aire” debemos analizar si se trata de un campo representable y, en ese caso, añadirlo al almacen de documentos que en este caso es el array JSON como se puede observar en las líneas comentadas del fragmento de código anterior.</span>
 
 <span class="c11 c10">Una versión más óptima para este caso en que el campo no es almacnado sería:</span>
-
-<span class="c4">    this.field('year',{</span>
-
-<span class="c4">        extractor: function (doc) {</span>
-
-<span class="c4">            return doc.fecha.substring(doc.fecha.lastIndexOf('/')+1);</span>
-
-<span class="c4">        }</span>
-
-<span class="c4">    })</span>
-
+```
+this.field('year',{
+    extractor: function (doc) {
+        return doc.fecha.substring(doc.fecha.lastIndexOf('/')+1);
+    }
+})
+```
 <span class="c11 c10"></span>
 
 <span class="c11 c10"> También tenemos que modificar la consulta para añadir este nuevo filtro:</span>
+```
+function searchInLunr(consulta, municipio, year, difuso=0, page=0) {
+    var resultados= new Object();
+    resultados.resultsPerPage= 2;
+    var result = idxTDT.query(function (q) {
+        if (consulta && consulta.length > 0) {
+            consulta.split(' ').forEach(function (value) {
+                q.term(value, { boost: 32 }) // exact match
+                q.term(value, { usePipeline: false, wildcard: lunr.Query.wildcard.TRAILING, boost: 8 }) // prefix match, no stemmer
+                q.term(value, { usePipeline: false, wildcard: lunr.Query.wildcard.LEADING, boost: 4 }) // suffix match, no stemmer
+                q.term(value, { usePipeline: false, wildcard: lunr.Query.wildcard.LEADING | lunr.Query.wildcard.TRAILING, boost: 2 }) // suffix and prefix match, no stemmer
+                if (difuso) {
+                    q.term(value, { usePipeline: true, wildcard: lunr.Query.wildcard.LEADING, boost: 4 }) // suffix match, no stemmer
+                    q.term(value, { usePipeline: false, editDistance: value.length>6?2:1, boost: 1 }) // fuzzy matching
+                }
+            });
+        }
+        if (municipio && municipio.length > 0) {
+            q.term(municipio.toLowerCase(), { fields: ["localidad"], usePipeline: true, presence: lunr.Query.presence.REQUIRED })
+        }   
+        if (year && year.length > 0) {
+            q.term(year, { fields: ["year"], usePipeline: false, presence: lunr.Query.presence.REQUIRED })
+        }   
+    })
 
-<span class="c4">function searchInLunr(consulta, municipio, year, difuso=0, page=0) {</span>
-
-<span class="c4">    var resultados= new Object();</span>
-
-<span class="c4">    resultados.resultsPerPage= 2;</span>
-
-<span class="c4">    var result = idxTDT.query(function (q) {</span>
-
-<span class="c4">        if (consulta && consulta.length > 0) {</span>
-
-<span class="c4">            consulta.split(' ').forEach(function (value) {</span>
-
-<span class="c4">                q.term(value, { boost: 32 }) // exact match</span>
-
-<span class="c4">                q.term(value, { usePipeline: false, wildcard: lunr.Query.wildcard.TRAILING, boost: 8 }) // prefix match, no stemmer</span>
-
-<span class="c4">                q.term(value, { usePipeline: false, wildcard: lunr.Query.wildcard.LEADING, boost: 4 }) // suffix match, no stemmer</span>
-
-<span class="c4">                q.term(value, { usePipeline: false, wildcard: lunr.Query.wildcard.LEADING | lunr.Query.wildcard.TRAILING, boost: 2 }) // suffix and prefix match, no stemmer</span>
-
-<span class="c4">                if (difuso) {</span>
-
-<span class="c4">                    q.term(value, { usePipeline: true, wildcard: lunr.Query.wildcard.LEADING, boost: 4 }) // suffix match, no stemmer</span>
-
-<span class="c4">                    q.term(value, { usePipeline: false, editDistance: value.length>6?2:1, boost: 1 }) // fuzzy matching</span>
-
-<span class="c4">                }</span>
-
-<span class="c4">            });</span>
-
-<span class="c4">        }</span>
-
-<span class="c4">        if (municipio && municipio.length > 0) {</span>
-
-<span class="c4">            q.term(municipio.toLowerCase(), { fields: ["localidad"], usePipeline: true, presence: lunr.Query.presence.REQUIRED })</span>
-
-<span class="c4">        }  </span>
-
-<span class="c4">        if (year && year.length > 0) {</span>
-
-<span class="c4">            q.term(year, { fields: ["year"], usePipeline: false, presence: lunr.Query.presence.REQUIRED })</span>
-
-<span class="c4">        }  </span>
-
-<span class="c4">    })</span>
-
-<span class="c4">   </span>
-
-<span class="c4">    resultados.currentResults = result.slice(page * resultados.resultsPerPage, (page * resultados.resultsPerPage) + resultados.resultsPerPage);</span>
-
-<span class="c4">    resultados.total= result.length;</span>
-
-<span class="c4">    return resultados;</span>
-
-<span class="c4">}</span>
-
+    resultados.currentResults = result.slice(page * resultados.resultsPerPage, (page * resultados.resultsPerPage) + resultados.resultsPerPage);
+    resultados.total= result.length;
+    return resultados;
+}
+```
 <span class="c11 c10"></span>
 
 <span class="c11 c10">Aunque los mantenedores de la librería han analizado cómo implementar en el futuro búsquedas de intervalos numéricos como, por ejemplo, ‘devuelve todos los documentos con precios entre 5 y 10’, esta funcionalidad actualmente no está soportada. En lo que se refiere a búsqueda de documentos por intervalos de fechas no queda más remedio que hacer cosas del tipo:</span>
@@ -1940,84 +1581,55 @@ Manual con ejemplo de cómo usar la librería lunr.js
 ### <span class="c28">Documentos destacados</span>
 
 <span class="c11 c10">Podemos asignar una relevancia más alta a ciertos documentos en tiempo de indexación. El API de adición de documentos permite indicar un atributo de relevancia que quedará asociado al documento y servirá para modificar la ponderación que Lunr le ha asignado a ese documento en cada búsqueda. La manera más sencilla se ilustra mediante el siguiente fragmento de búsqueda:</span>
-
+```
 <span class="c4"></span>
 
-<span class="c4">var idx = lunr(function () {</span>
+var idx = lunr(function () {
+ this.ref('name')
+  this.field('text')
 
-<span class="c4"> this.ref('name')</span>
-
-<span class="c4">  this.field('text')</span>
-
-<span class="c4"></span>
-
-<span class="c4">    documents.forEach(function (doc) {</span>
-
-<span class="c4">        this.add(doc, { boost: boostValue })</span>
-
-<span class="c4">    }, this)</span>
-
-<span class="c4">})</span>
-
+    documents.forEach(function (doc) {
+        this.add(doc, { boost: boostValue })
+    }, this)
+})
+```
 <span class="c11 c10"></span>
 
 <span class="c11 c10">Por ejemplo, si la relevancia estuviera almacenada en un campo de los documentos el código sería:</span>
+```
+var idx = lunr(function () {
+this.ref('name')
+ this.field('text')
 
-<span class="c10"> </span><span class="c4">var idx = lunr(function () {</span>
-
-<span class="c4"> this.ref('name')</span>
-
-<span class="c4">  this.field('text')</span>
-
-<span class="c4"></span>
-
-<span class="c4">    documents.forEach(function (doc) {</span>
-
-<span class="c4">        this.add(doc, { boost: doc.relevancia })</span>
-
-<span class="c4">    }, this)</span>
-
-<span class="c4">})</span>
-
+   documents.forEach(function (doc) {
+       this.add(doc, { boost: doc.relevancia })
+   }, this)
+})
+```
 <span class="c11 c10"></span>
 
 <span class="c11 c10">El uso adecuado de esta funcionalidad es destacar o promocionar determinados documentos, de tal modo que si los criterios de búsqueda lo identifican como un documento que cumple condiciones para devolverse como resultado, éste salga entre los primeros. Se puede ajustar el boost para que incluso salga siempre el primero.</span>
 
 <span class="c11 c10">Además de esta manera de asignar relevancia a cada documento también existe otro método basado en que el propio JSON se estructure en forma de tuplas documento, boost de este modo:</span>
-
-<span class="c7 c38">documents = [</span>
-
-<span class="c7 c38">    {</span>
-
-<span class="c7"></span> <span class="c15 c25">'id'</span><span class="c7">:</span> <span class="c15 c25">'0'</span><span class="c7 c38">,</span>
-
-<span class="c7"></span> <span class="c15 c25">'title'</span><span class="c7">:</span> <span class="c15 c25">'Título del primer documento'</span><span class="c7 c38">,</span>
-
-<span class="c7 c38">    },</span>
-
-<span class="c7 c38">    {</span>
-
-<span class="c7"></span> <span class="c15 c25">'id'</span><span class="c7">:</span> <span class="c15 c25">'1'</span><span class="c7 c38">,</span>
-
-<span class="c7"></span> <span class="c15 c25">'title'</span><span class="c7">:</span> <span class="c15 c25">'Título del segundo documento'</span><span class="c7 c38">,</span>
-
-<span class="c7 c38">    },</span>
-
-<span class="c7 c38">    (</span>
-
-<span class="c7 c38">        {</span>
-
-<span class="c7"></span> <span class="c15 c25">'id'</span><span class="c7">:</span> <span class="c15 c25">'2'</span><span class="c7 c38">,</span>
-
-<span class="c7"></span> <span class="c15 c25">'title'</span><span class="c7">:</span> <span class="c15 c25">'Título del tercer documento'</span><span class="c7 c38">,</span>
-
-<span class="c7 c38">        }, {</span>
-
-<span class="c7"></span> <span class="c15 c25">'boost'</span><span class="c7">:</span> <span class="c15 c59">10</span>
-
-<span class="c7 c38">        }</span>
-
-<span class="c7 c38">    )]</span>
+```
+documents = [
+    {
+        'id': '0',
+        'title': 'Título del primer documento',
+    },
+    {
+        'id': '1',
+        'title': 'Título del segundo documento',
+    },
+    (
+        {
+            'id': '2',
+            'title': 'Título del tercer documento',
+        }, {
+            'boost': 10
+        }
+    )]
+```
 
 <span class="c11 c10">Obsérvese que la estructura del tercer documento es una tupla formada por el documento y el boost correspondiente. Al resto de documento que no especifican ninguna relevancia se les asigna 1 por defecto.</span>
 
@@ -2038,46 +1650,29 @@ Manual con ejemplo de cómo usar la librería lunr.js
 <span class="c4"></span>
 
 <span class="c11 c10">Así que podemos hacer un método que cree un enlace de descarga del fichero serializado del índice del siguiente modo:</span>
+```
+function downloadIndex() {
+    var serializedIndex= JSON.stringify(idxTDT);
+    // crear el fichero con la API File
+    var file = new Blob([serializedIndex],{type:"text/plain;charset=utf-8"});
 
-<span class="c4">function downloadIndex() {</span>
+    // Obtener una URL para el fichero que acabas de crear
+    var url  = window.URL.createObjectURL(file);
 
-<span class="c4">    var serializedIndex= JSON.stringify(idxTDT);</span>
+    // crear un enlace y lo añades al documento
+    var a = document.createElement("a");
 
-<span class="c4">    // crear el fichero con la API File</span>
+    jQuery("#descarga").append(a);
 
-<span class="c4">    var file = new Blob([serializedIndex],{type:"text/plain;charset=utf-8"});</span>
-
-<span class="c4"></span>
-
-<span class="c4">    // Obtener una URL para el fichero que acabas de crear</span>
-
-<span class="c4">    var url  = window.URL.createObjectURL(file);</span>
-
-<span class="c4"></span>
-
-<span class="c4">    // crear un enlace y lo añades al documento</span>
-
-<span class="c4">    var a = document.createElement("a");</span>
-
-<span class="c4">   </span>
-
-<span class="c4">    jQuery("#descarga").append(a);</span>
-
-<span class="c4"></span>
-
-<span class="c4">    // actualizar los parámetros del enlace para descargar el fichero creado</span>
-
-<span class="c4">    a.href = url;</span>
-
-<span class="c4">    a.innerHTML = "Descargar fichero";</span>
-
-<span class="c4">    a.download = file.name;</span>
-
-<span class="c4">}</span>
-
+    // actualizar los parámetros del enlace para descargar el fichero creado
+    a.href = url;
+    a.innerHTML = "Descargar fichero";
+    a.download = file.name;
+}
+```
 <span class="c11 c10"></span>
 
-<span class="c10">Para cargar el índice habría que llamar a la unción load del siguiente modo:</span>
+<span class="c10">Para cargar el índice habría que llamar a la función load del siguiente modo:</span>
 
 <span class="c11 c10">var idxTDT = lunr.Index.load(JSON.parse(serializedIndex))</span>
 
@@ -2109,85 +1704,47 @@ Manual con ejemplo de cómo usar la librería lunr.js
 *   <span class="c11 c10">La segunda solución pasa por lanzar dos búsquedas: una primero con todos los documentos que se ajustan a la consulta ‘foo bar’, luego lanzar una segunda consulta de todos los documentos que se ajustan a ‘+field:baz’ y, finalmente, recorrerse el array del primer resultado y eliminar los documentos que no estén en el segundo array.</span>
 
 <span class="c11 c10">Vamos a implementar la segunda solución que es la que tiene algo más de dificultad. A continuación se muestra la función searchInLunr tras esta modificación:</span>
-
-<span class="c4">function searchInLunr(consulta, municipio, year, difuso=0, page=0) {</span>
-
-<span class="c4">    var resultados= new Object();</span>
-
-<span class="c4">    resultados.resultsPerPage= 2;</span>
-
-<span class="c4">    // Ejecutamos una consulta con los términos de la caja de búsqueda</span>
-
-<span class="c4">    var results = idxTDT.query(function (q) {</span>
-
-<span class="c4">        if (consulta && consulta.length > 0) {</span>
-
-<span class="c4">            consulta.split(' ').forEach(function (value) {</span>
-
-<span class="c4">                q.term(value, { boost: 32 }) // exact match</span>
-
-<span class="c4">                q.term(value, { usePipeline: false, wildcard: lunr.Query.wildcard.TRAILING, boost: 8 }) // prefix match, no stemmer</span>
-
-<span class="c4">                q.term(value, { usePipeline: false, wildcard: lunr.Query.wildcard.LEADING, boost: 4 }) // suffix match, no stemmer</span>
-
-<span class="c4">                q.term(value, { usePipeline: false, wildcard: lunr.Query.wildcard.LEADING | lunr.Query.wildcard.TRAILING, boost: 2 }) // suffix and prefix match, no stemmer</span>
-
-<span class="c4">                if (difuso) {</span>
-
-<span class="c4">                    q.term(value, { usePipeline: true, wildcard: lunr.Query.wildcard.LEADING, boost: 4 }) // suffix match, no stemmer</span>
-
-<span class="c4">                    q.term(value, { usePipeline: false, editDistance: value.length>6?2:1, boost: 1 }) // fuzzy matching</span>
-
-<span class="c4">                }</span>
-
-<span class="c4">            });</span>
-
-<span class="c4">        }</span>
-
-<span class="c4">    })</span>
-
-<span class="c4">    // Ejecutamos una segunda consulta con los términos procedentes de los dos filtros</span>
-
-<span class="c4">    var results2 = idxTDT.query(function (q) {</span>
-
-<span class="c4">        if (municipio && municipio.length > 0) {</span>
-
-<span class="c4">            q.term(municipio.toLowerCase(), { fields: ["localidad"], usePipeline: true, presence: lunr.Query.presence.REQUIRED })</span>
-
-<span class="c4">        }</span>
-
-<span class="c4">        if (year && year.length > 0) {</span>
-
-<span class="c4">            q.term(year, { fields: ["year"], usePipeline: false, presence: lunr.Query.presence.REQUIRED })</span>
-
-<span class="c4">        }</span>
-
-<span class="c4">    })</span>
-
-<span class="c4">    // Eliminamos del primer array aquellos documentos que no están en el segundo.</span>
-
-<span class="c4">    results = results.filter(function (result1) {</span>
-
-<span class="c4">      return results2.some(function (result2) {</span>
-
-<span class="c4">        return result2.ref === result1.ref;</span>
-
-<span class="c4">      })</span>
-
-<span class="c4">    });</span>
-
-<span class="c4">    // Del array completo de documentos devuelto por las consultas anteriores vamos a extraer</span>
-
-<span class="c4">    // el fragmento correspondiente únicamente con la página que vamos a presentar</span>
-
-<span class="c4">    resultados.currentResults = results.slice(page * resultados.resultsPerPage, (page * resultados.resultsPerPage) + resultados.resultsPerPage);</span>
-
-<span class="c4">    resultados.total= results.length;</span>
-
-<span class="c4">    return resultados;</span>
-
-<span class="c4">}</span>
-
+```
+function searchInLunr(consulta, municipio, year, difuso=0, page=0) {
+    var resultados= new Object();
+    resultados.resultsPerPage= 2;
+    // Ejecutamos una consulta con los términos de la caja de búsqueda
+    var results = idxTDT.query(function (q) {
+        if (consulta && consulta.length > 0) {
+            consulta.split(' ').forEach(function (value) {
+                q.term(value, { boost: 32 }) // exact match
+                q.term(value, { usePipeline: false, wildcard: lunr.Query.wildcard.TRAILING, boost: 8 }) // prefix match, no stemmer
+                q.term(value, { usePipeline: false, wildcard: lunr.Query.wildcard.LEADING, boost: 4 }) // suffix match, no stemmer
+                q.term(value, { usePipeline: false, wildcard: lunr.Query.wildcard.LEADING | lunr.Query.wildcard.TRAILING, boost: 2 }) // suffix and prefix match, no stemmer
+                if (difuso) {
+                    q.term(value, { usePipeline: true, wildcard: lunr.Query.wildcard.LEADING, boost: 4 }) // suffix match, no stemmer
+                    q.term(value, { usePipeline: false, editDistance: value.length>6?2:1, boost: 1 }) // fuzzy matching
+                }
+            });
+        }
+    })
+    // Ejecutamos una segunda consulta con los términos procedentes de los dos filtros
+    var results2 = idxTDT.query(function (q) {
+        if (municipio && municipio.length > 0) {
+            q.term(municipio.toLowerCase(), { fields: ["localidad"], usePipeline: true, presence: lunr.Query.presence.REQUIRED })
+        }
+        if (year && year.length > 0) {
+            q.term(year, { fields: ["year"], usePipeline: false, presence: lunr.Query.presence.REQUIRED })
+        }
+    })
+    // Eliminamos del primer array aquellos documentos que no están en el segundo.
+    results = results.filter(function (result1) {
+      return results2.some(function (result2) {
+        return result2.ref === result1.ref;
+      })
+    });
+    // Del array completo de documentos devuelto por las consultas anteriores vamos a extraer
+    // el fragmento correspondiente únicamente con la página que vamos a presentar
+    resultados.currentResults = results.slice(page * resultados.resultsPerPage, (page * resultados.resultsPerPage) + resultados.resultsPerPage);
+    resultados.total= results.length;
+    return resultados;
+}
+```
 <span class="c4"></span>
 
 <span class="c10">Tras este cambio, ya funciona correctamente la búsqueda libre con filtrados con desplegables, también conocidas como búsquedas facetadas, aunque en este contexto las búsquedas facetadas tienen otro significado.</span>
