@@ -174,7 +174,7 @@ var idxTDT = lunr(function () {
 function searchInLunr(consulta, municipio, year, difuso=0, page=0) {
     var resultados= new Object();
     resultados.resultsPerPage= 2;
-
+    // Ejecutamos una consulta con los términos de la caja de búsqueda
     var results = idxTDT.query(function (q) {
         if (consulta && consulta.length > 0) {
             consulta.split(' ').forEach(function (value) {
@@ -189,6 +189,7 @@ function searchInLunr(consulta, municipio, year, difuso=0, page=0) {
             });
         }
     })
+    // Ejecutamos una segunda consulta con los términos procedentes de los dos filtros
     var results2 = idxTDT.query(function (q) {
         if (municipio && municipio.length > 0) {
             q.term(municipio.toLowerCase(), { fields: ["localidad"], usePipeline: true, presence: lunr.Query.presence.REQUIRED })
@@ -197,12 +198,14 @@ function searchInLunr(consulta, municipio, year, difuso=0, page=0) {
             q.term(year, { fields: ["year"], usePipeline: false, presence: lunr.Query.presence.REQUIRED })
         }
     })
+    // Eliminamos del primer array aquellos documentos que no están en el segundo.
     results = results.filter(function (result1) {
       return results2.some(function (result2) {
         return result2.ref === result1.ref;
       })
     });
-
+    // Del array completo de documentos devuelto por las consultas anteriores vamos a extraer
+    // el fragmento correspondiente únicamente con la página que vamos a presentar
     resultados.currentResults = results.slice(page * resultados.resultsPerPage, (page * resultados.resultsPerPage) + resultados.resultsPerPage);
     resultados.total= results.length;
     return resultados;
