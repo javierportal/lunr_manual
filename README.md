@@ -7,9 +7,6 @@ Manual con ejemplo de cómo usar la librería lunr.js
 
 <span class="c2">Versión: 1.0</span>
 
-<span class="c27 c34">[Manual de LUNR](#h.tfoh2k5oxhkh)</span><span class="c34 c27">        
-
-
 <span class="c2"></span>
 
 * * *
