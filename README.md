@@ -1,5 +1,6 @@
 # lunr_manual
 Manual con ejemplo de cómo usar la librería lunr.js
+Examples of using lunr.js with spanish stemmer
 
 # <span class="c11 c53">Manual de LUNR</span>
 
